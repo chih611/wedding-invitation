@@ -156,7 +156,7 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < leafCount; i++) {
       const leaf = document.createElement('img');
       leaf.classList.add('burst-leaf');
-      leaf.src = '../../../leaf-1531.svg';
+      leaf.src = 'leaf-1531.svg';
       leaf.alt = '';
       leaf.setAttribute('aria-hidden', 'true');
 
