@@ -29,7 +29,7 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < 20; i++) {
       const leaf = document.createElement('img');
       leaf.classList.add('leaf');
-      leaf.src = '/wedding-invitation/tree/main/public/leaf-1531.svg';
+      leaf.src = 'media/leaf-1531.svg';
       leaf.alt = '';
       leaf.setAttribute('aria-hidden', 'true');
 
