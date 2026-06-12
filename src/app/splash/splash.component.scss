@@ -582,3 +582,150 @@
     }
   }
 }
+
+// Burst leaf animations
+.burst-leaf {
+  position: fixed;
+  pointer-events: none;
+  will-change: transform, opacity;
+  object-fit: contain;
+  animation: none !important;
+}
+
+.burst-fragment {
+  position: fixed;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+// Optional: Add a glowing effect to the burst
+@keyframes burstGlow {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(255, 183, 197, 0.8));
+  }
+  100% {
+    filter: drop-shadow(0 0 8px rgba(255, 183, 197, 0.3));
+  }
+}
+
+.burst-leaf {
+  animation: burstGlow 0.3s ease-out forwards;
+}
+
+// Glow overlay animation
+.glow-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+// Light beams animation
+.light-beam {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(8px);
+  pointer-events: none;
+  transform-origin: center;
+}
+
+// Atmospheric particles
+.atmospheric-particle {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(2px);
+  animation: floatParticle 1s ease-out forwards;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--tx, 50px), var(--ty, -50px)) scale(0);
+    opacity: 0;
+  }
+}
+
+// Enhanced burst leaf with glow
+.burst-leaf {
+  position: fixed;
+  pointer-events: none;
+  will-change: transform, opacity;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 200, 180, 0.6));
+  animation: leafGlow 0.5s ease-out;
+}
+
+@keyframes leafGlow {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(255, 200, 180, 0.9));
+  }
+  100% {
+    filter: drop-shadow(0 0 15px rgba(255, 200, 180, 0.3));
+  }
+}
+
+.burst-fragment {
+  position: fixed;
+  pointer-events: none;
+  will-change: transform, opacity;
+  box-shadow: 0 0 6px rgba(255, 200, 180, 0.6);
+}
+
+// Flower and leaf shadows
+.flower-shadow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: shadowPulse 0.5s ease-out forwards;
+}
+
+.leaf-shadow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: leafShadowPulse 0.4s ease-out forwards;
+}
+
+@keyframes shadowPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+@keyframes leafShadowPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+// Radiating aura effect
+.radiating-aura {
+  position: absolute;
+  border-radius: 20px;
+  pointer-events: none;
+  will-change: transform, opacity;
+}

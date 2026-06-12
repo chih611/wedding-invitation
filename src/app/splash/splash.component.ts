@@ -11,6 +11,8 @@ import gsap from 'gsap';
 export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
   private leaves: HTMLElement[] = [];
   private leafTweens: gsap.core.Tween[] = [];
+  private burstLeaves: HTMLElement[] = []; // Store burst leaves
+  private isAnimating = false;
 
   constructor(private router: Router) {}
 
@@ -25,7 +27,6 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     const leafContainer = document.querySelector('.petals-container');
     if (!leafContainer) return;
 
-    // Create SVG leaves that gently drift down with GSAP
     for (let i = 0; i < 20; i++) {
       const leaf = document.createElement('img');
       leaf.classList.add('leaf');
@@ -84,7 +85,6 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private animateContent() {
-    // Animate the invitation card
     gsap.from('.splash-content', {
       scale: 0.8,
       opacity: 0,
@@ -92,7 +92,6 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
       ease: 'back.out(1.2)',
     });
 
-    // Animate couple names
     gsap.from('.couple-names', {
       y: 50,
       opacity: 0,
@@ -125,7 +124,6 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
       ease: 'power2.out',
     });
 
-    // Animate invitation text
     gsap.from('.invitation-text', {
       y: 30,
       opacity: 0,
@@ -134,16 +132,6 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
       ease: 'power2.out',
     });
 
-    // Animate button
-    gsap.from('.open-invitation-btn', {
-      // y: 30,
-      // opacity: 0,
-      // duration: 0.6,
-      // delay: 1.0,
-      // ease: 'power2.out',
-    });
-
-    // Add pulse animation to button
     gsap.to('.open-invitation-btn', {
       scale: 1.05,
       duration: 1,
@@ -154,22 +142,198 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  private createLeafBurst() {
+    const button = document.querySelector('.open-invitation-btn');
+    const container = document.querySelector('.petals-container');
+    if (!button || !container) return;
+
+    const buttonRect = button.getBoundingClientRect();
+    const centerX = buttonRect.left + buttonRect.width / 2;
+    const centerY = buttonRect.top + buttonRect.height / 2;
+
+    const leafCount = Math.floor(Math.random() * 50) + 150;
+
+    for (let i = 0; i < leafCount; i++) {
+      const leaf = document.createElement('img');
+      leaf.classList.add('burst-leaf');
+      leaf.src = '../../leaf-1531.svg';
+      leaf.alt = '';
+      leaf.setAttribute('aria-hidden', 'true');
+
+      const size = Math.random() * 30 + 12;
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = Math.random() * 1000 + 300;
+      const distance = Math.random() * 600 + 200;
+      const rotation = Math.random() * 1080 - 540;
+      const delay = Math.random() * 0.15;
+
+      const targetX = Math.cos(angle) * distance;
+      const targetY = Math.sin(angle) * distance;
+
+      leaf.style.width = `${size}px`;
+      leaf.style.height = `${size}px`;
+      leaf.style.position = 'fixed';
+      leaf.style.left = `${centerX - size / 2}px`;
+      leaf.style.top = `${centerY - size / 2}px`;
+      leaf.style.zIndex = '1000';
+      leaf.style.pointerEvents = 'none';
+      leaf.style.opacity = '1';
+      leaf.style.filter =
+        'brightness(0) saturate(100%) invert(78%) sepia(22%) saturate(360%) hue-rotate(340deg) brightness(96%) contrast(90%) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))';
+
+      container.appendChild(leaf);
+      this.burstLeaves.push(leaf); // Store for persistence
+
+      // Calculate final position
+      const finalX = targetX;
+      const finalY = targetY;
+
+      gsap.fromTo(
+        leaf,
+        {
+          scale: 0,
+          rotation: 0,
+          opacity: 1,
+        },
+        {
+          scale: 1.2,
+          rotation: rotation,
+          x: finalX,
+          y: finalY,
+          opacity: 0.8,
+          duration: velocity / 1000,
+          delay: delay,
+          ease: 'power2.out',
+          onComplete: () => {
+            // Don't remove - keep the leaf floating
+            // Change to continuous floating animation
+            this.makeLeafFloat(leaf, finalX, finalY);
+          },
+        }
+      );
+
+      // Add fragments (small particles)
+      if (Math.random() > 0.5) {
+        const fragment = document.createElement('div');
+        fragment.classList.add('burst-fragment');
+        fragment.style.width = `${size / 2.5}px`;
+        fragment.style.height = `${size / 2.5}px`;
+        fragment.style.position = 'fixed';
+        fragment.style.left = `${centerX - size / 5}px`;
+        fragment.style.top = `${centerY - size / 5}px`;
+        fragment.style.zIndex = '1000';
+        fragment.style.pointerEvents = 'none';
+        fragment.style.backgroundColor = '#ffb7c5';
+        fragment.style.borderRadius = '50%';
+
+        container.appendChild(fragment);
+
+        const fragAngle = angle + (Math.random() - 0.5) * 0.8;
+        const fragDistance = distance * 0.7;
+        const fragX = Math.cos(fragAngle) * fragDistance;
+        const fragY = Math.sin(fragAngle) * fragDistance;
+
+        gsap.fromTo(
+          fragment,
+          {
+            scale: 0,
+            opacity: 0.9,
+          },
+          {
+            scale: 1,
+            x: fragX,
+            y: fragY,
+            opacity: 0,
+            duration: velocity / 1400,
+            delay: delay + 0.08,
+            ease: 'power1.out',
+            onComplete: () => {
+              fragment.remove(); // Fragments disappear (they're small)
+            },
+          }
+        );
+      }
+    }
+  }
+
+  // Make leaves float continuously after burst
+  private makeLeafFloat(leaf: HTMLElement, startX: number, startY: number) {
+    // Random floating parameters
+    const floatDuration = Math.random() * 8 + 6; // 6-14 seconds
+    const swayX = (Math.random() - 0.5) * 200; // Random horizontal sway
+    const swayY = Math.random() * 100 + 50; // Continue falling slowly
+    const rotation = Math.random() * 360;
+
+    // Continue floating animation
+    gsap.to(leaf, {
+      x: startX + swayX,
+      y: startY + swayY,
+      rotation: `+=${rotation}`,
+      duration: floatDuration,
+      ease: 'power1.inOut',
+      repeat: -1,
+      yoyo: true,
+      onRepeat: () => {
+        // Randomize movement on each repeat
+        const newSwayX = (Math.random() - 0.5) * 150;
+        const newSwayY = Math.random() * 80 + 30;
+        gsap.to(leaf, {
+          x: startX + newSwayX,
+          y: startY + newSwayY,
+          duration: floatDuration,
+          overwrite: true,
+        });
+      },
+    });
+  }
+
   openMainPage() {
-    // Add exit animation before navigation
-    gsap.to('.splash-content', {
-      scale: 0,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'back.in(1)',
+    if (this.isAnimating) return;
+    this.isAnimating = true;
+
+    // Stop ONLY the original falling leaves, NOT the burst leaves
+    this.leafTweens.forEach((tween) => tween.kill());
+
+    // Remove original falling leaves (they will be replaced by burst leaves)
+    this.leaves.forEach((leaf) => leaf.remove());
+
+    // Create leaf burst (burst leaves will persist)
+    this.createLeafBurst();
+
+    // Animate button press
+    gsap.to('.open-invitation-btn', {
+      scale: 0.95,
+      duration: 0.1,
+      yoyo: true,
+      repeat: 1,
       onComplete: () => {
+        gsap.to('.open-invitation-btn', {
+          x: 5,
+          yoyo: true,
+          repeat: 3,
+          duration: 0.05,
+        });
+      },
+    });
+
+    // Smooth disappear for the card
+    gsap.to('.splash-content', {
+      opacity: 0,
+      y: -10,
+      duration: 0.7,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        // Navigate to main page (burst leaves will persist because they're on the body)
         this.router.navigate(['/main']);
+        this.isAnimating = false;
       },
     });
   }
 
   ngOnDestroy() {
-    // Clean up leaves
+    // Clean up original leaves
     this.leaves.forEach((leaf) => leaf.remove());
     this.leafTweens.forEach((tween) => tween.kill());
+    // Don't remove burst leaves - they should persist
   }
 }
