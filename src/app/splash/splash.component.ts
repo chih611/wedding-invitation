@@ -151,7 +151,7 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     const centerX = buttonRect.left + buttonRect.width / 2;
     const centerY = buttonRect.top + buttonRect.height / 2;
 
-    const leafCount = Math.floor(Math.random() * 50) + 150;
+    const leafCount = Math.floor(Math.random() * 15) + 25;
 
     for (let i = 0; i < leafCount; i++) {
       const leaf = document.createElement('img');
@@ -165,7 +165,7 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
       const velocity = Math.random() * 1000 + 300;
       const distance = Math.random() * 600 + 200;
       const rotation = Math.random() * 1080 - 540;
-      const delay = Math.random() * 0.15;
+      const delay = Math.random() * 1;
 
       const targetX = Math.cos(angle) * distance;
       const targetY = Math.sin(angle) * distance;
