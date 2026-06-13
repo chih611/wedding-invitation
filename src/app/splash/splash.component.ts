@@ -30,7 +30,7 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < 20; i++) {
       const leaf = document.createElement('img');
       leaf.classList.add('leaf');
-      leaf.src = '../../assets/leaf-1531.svg';
+      leaf.src = 'assets/leaf-1531.svg';
       leaf.alt = '';
       leaf.setAttribute('aria-hidden', 'true');
 
@@ -156,7 +156,7 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < leafCount; i++) {
       const leaf = document.createElement('img');
       leaf.classList.add('burst-leaf');
-      leaf.src = '/assets/leaf-1531.svg';
+      leaf.src = 'assets/leaf-1531.svg';
       leaf.alt = '';
       leaf.setAttribute('aria-hidden', 'true');
 
