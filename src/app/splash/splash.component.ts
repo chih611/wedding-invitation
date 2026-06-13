@@ -10,8 +10,8 @@ import gsap from 'gsap';
 })
 export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
   private leaves: HTMLElement[] = [];
-  private leafTweens: gsap.core.Tween[] = [];
-  private burstLeaves: HTMLElement[] = []; // Store burst leaves
+  private leafAnimations: (gsap.core.Tween | gsap.core.Timeline)[] = []; // Changed to accept both Tween and Timeline
+  private burstLeaves: HTMLElement[] = [];
   private isAnimating = false;
 
   constructor(private router: Router) {}
@@ -27,10 +27,10 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     const leafContainer = document.querySelector('.petals-container');
     if (!leafContainer) return;
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 30; i++) {
       const leaf = document.createElement('img');
       leaf.classList.add('leaf');
-      leaf.src = 'assets/leaf-1531.svg';
+      leaf.src = 'assets/leaf.svg';
       leaf.alt = '';
       leaf.setAttribute('aria-hidden', 'true');
 
@@ -38,7 +38,19 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
       const isFastLeaf = Math.random() > 0.5;
       const size = isLargeLeaf ? Math.random() * 22 + 30 : Math.random() * 12 + 16;
       const left = Math.random() * 100;
-      const delay = Math.random() * 8;
+
+      // Determine leaf behavior
+      const behaviorType = Math.random();
+      let willPause = false;
+      let pauseDuration = 0;
+      let pausePosition = 0;
+
+      if (behaviorType < 0.2) {
+        willPause = true;
+        pauseDuration = Math.random() * 1 + 1;
+        pausePosition = Math.random() * 0.6 + 0.2;
+      }
+
       const duration = isFastLeaf ? Math.random() * 3 + 6 : Math.random() * 5 + 12;
       const rotation = Math.random() * 360;
       const sway = Math.random() * 120 - 60;
@@ -59,28 +71,70 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
       leafContainer.appendChild(leaf);
       this.leaves.push(leaf);
 
-      const tween = gsap.fromTo(
-        leaf,
-        {
-          y: -80,
-          x: drift,
-          rotate: rotation,
-          opacity: 0,
-        },
-        {
-          y: window.innerHeight + 140,
+      const startY = -80;
+      const endY = window.innerHeight + 140;
+
+      if (willPause) {
+        const pauseY = startY + (endY - startY) * pausePosition;
+
+        // Create a timeline for the paused animation
+        const tl = gsap.timeline({
+          repeat: -1,
+          repeatDelay: Math.random() * 1.6,
+          delay: Math.random() * 2,
+        });
+
+        // First segment: fall to pause position
+        tl.to(leaf, {
+          y: pauseY,
+          x: sway * pausePosition,
+          rotate: rotation + 180 * pausePosition,
+          opacity: isLargeLeaf ? 0.98 : 0.9,
+          duration: duration * pausePosition,
+          ease: 'power1.inOut',
+        });
+
+        // Pause/hover
+        tl.to(leaf, {
+          duration: pauseDuration,
+          ease: 'none',
+        });
+
+        // Continue falling
+        tl.to(leaf, {
+          y: endY,
           x: sway,
           rotate: rotation + 180,
           opacity: isLargeLeaf ? 0.98 : 0.9,
-          duration,
-          delay,
+          duration: duration * (1 - pausePosition),
           ease: 'power1.inOut',
-          repeat: -1,
-          repeatDelay: Math.random() * 1.6,
-        }
-      );
+        });
 
-      this.leafTweens.push(tween);
+        this.leafAnimations.push(tl); // Push to new array that accepts Timeline
+      } else {
+        // Normal falling animation
+        const tween = gsap.fromTo(
+          leaf,
+          {
+            y: startY,
+            x: drift,
+            rotate: rotation,
+            opacity: 0,
+          },
+          {
+            y: endY,
+            x: sway,
+            rotate: rotation + 180,
+            opacity: isLargeLeaf ? 0.98 : 0.9,
+            duration,
+            delay: Math.random() * 2,
+            ease: 'power1.inOut',
+            repeat: -1,
+            repeatDelay: Math.random() * 1.6,
+          }
+        );
+        this.leafAnimations.push(tween);
+      }
     }
   }
 
@@ -156,7 +210,7 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < leafCount; i++) {
       const leaf = document.createElement('img');
       leaf.classList.add('burst-leaf');
-      leaf.src = 'assets/leaf-1531.svg';
+      leaf.src = 'assets/leaf.svg';
       leaf.alt = '';
       leaf.setAttribute('aria-hidden', 'true');
 
@@ -182,9 +236,8 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
         'brightness(0) saturate(100%) invert(78%) sepia(22%) saturate(360%) hue-rotate(340deg) brightness(96%) contrast(90%) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))';
 
       container.appendChild(leaf);
-      this.burstLeaves.push(leaf); // Store for persistence
+      this.burstLeaves.push(leaf);
 
-      // Calculate final position
       const finalX = targetX;
       const finalY = targetY;
 
@@ -205,14 +258,12 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
           delay: delay,
           ease: 'power2.out',
           onComplete: () => {
-            // Don't remove - keep the leaf floating
-            // Change to continuous floating animation
             this.makeLeafFloat(leaf, finalX, finalY);
           },
         }
       );
 
-      // Add fragments (small particles)
+      // Add fragments
       if (Math.random() > 0.5) {
         const fragment = document.createElement('div');
         fragment.classList.add('burst-fragment');
@@ -248,7 +299,7 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
             delay: delay + 0.08,
             ease: 'power1.out',
             onComplete: () => {
-              fragment.remove(); // Fragments disappear (they're small)
+              fragment.remove();
             },
           }
         );
@@ -256,15 +307,12 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  // Make leaves float continuously after burst
   private makeLeafFloat(leaf: HTMLElement, startX: number, startY: number) {
-    // Random floating parameters
-    const floatDuration = Math.random() * 8 + 6; // 6-14 seconds
-    const swayX = (Math.random() - 0.5) * 200; // Random horizontal sway
-    const swayY = Math.random() * 100 + 50; // Continue falling slowly
+    const floatDuration = Math.random() * 8 + 6;
+    const swayX = (Math.random() - 0.5) * 200;
+    const swayY = Math.random() * 100 + 50;
     const rotation = Math.random() * 360;
 
-    // Continue floating animation
     gsap.to(leaf, {
       x: startX + swayX,
       y: startY + swayY,
@@ -274,7 +322,6 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
       repeat: -1,
       yoyo: true,
       onRepeat: () => {
-        // Randomize movement on each repeat
         const newSwayX = (Math.random() - 0.5) * 150;
         const newSwayY = Math.random() * 80 + 30;
         gsap.to(leaf, {
@@ -291,16 +338,12 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isAnimating) return;
     this.isAnimating = true;
 
-    // Stop ONLY the original falling leaves, NOT the burst leaves
-    this.leafTweens.forEach((tween) => tween.kill());
-
-    // Remove original falling leaves (they will be replaced by burst leaves)
+    // Kill all animations (both Tween and Timeline)
+    this.leafAnimations.forEach((animation) => animation.kill());
     this.leaves.forEach((leaf) => leaf.remove());
 
-    // Create leaf burst (burst leaves will persist)
     this.createLeafBurst();
 
-    // Animate button press
     gsap.to('.open-invitation-btn', {
       scale: 0.95,
       duration: 0.1,
@@ -316,14 +359,12 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     });
 
-    // Smooth disappear for the card
     gsap.to('.splash-content', {
       opacity: 0,
       y: -10,
       duration: 0.7,
       ease: 'power2.inOut',
       onComplete: () => {
-        // Navigate to main page (burst leaves will persist because they're on the body)
         this.router.navigate(['/main']);
         this.isAnimating = false;
       },
@@ -331,9 +372,7 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Clean up original leaves
     this.leaves.forEach((leaf) => leaf.remove());
-    this.leafTweens.forEach((tween) => tween.kill());
-    // Don't remove burst leaves - they should persist
+    this.leafAnimations.forEach((animation) => animation.kill());
   }
 }
