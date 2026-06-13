@@ -196,6 +196,49 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  private createBackgroundEffect() {
+    const splashContent = document.querySelector('.splash-content');
+    if (!splashContent) return;
+
+    // Create a blur overlay for the background
+    const blurOverlay = document.createElement('div');
+    blurOverlay.style.position = 'absolute';
+    blurOverlay.style.inset = '0';
+    blurOverlay.style.borderRadius = '8px';
+    blurOverlay.style.pointerEvents = 'none';
+    blurOverlay.style.zIndex = '5';
+    blurOverlay.style.backdropFilter = 'blur(0px)';
+    blurOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+    blurOverlay.style.transition = 'all 0.3s ease';
+
+    splashContent.appendChild(blurOverlay);
+
+    // Animate the background scale and blur
+    const animation = gsap.timeline();
+
+    // Scale up the content
+    animation.to(splashContent, {
+      scale: 1.08,
+      duration: 0.5,
+      ease: 'power2.out',
+    });
+
+    // Add blur effect
+    animation.to(
+      blurOverlay,
+      {
+        backdropFilter: 'blur(6px)',
+        backgroundColor: 'rgba(0, 0, 0, 0.15)',
+        duration: 0.5,
+        ease: 'power2.out',
+      },
+      0
+    );
+
+    // Store the overlay for cleanup
+    return { animation, blurOverlay };
+  }
+
   private createLeafBurst() {
     const button = document.querySelector('.open-invitation-btn');
     const container = document.querySelector('.petals-container');
@@ -334,16 +377,202 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  // openMainPage() {
+  //   if (this.isAnimating) return;
+  //   this.isAnimating = true;
+
+  //   // Kill all animations (both Tween and Timeline)
+  //   this.leafAnimations.forEach((animation) => animation.kill());
+  //   this.leaves.forEach((leaf) => leaf.remove());
+
+  //   this.createLeafBurst();
+
+  //   gsap.to('.open-invitation-btn', {
+  //     scale: 0.95,
+  //     duration: 0.1,
+  //     yoyo: true,
+  //     repeat: 1,
+  //     onComplete: () => {
+  //       gsap.to('.open-invitation-btn', {
+  //         x: 5,
+  //         yoyo: true,
+  //         repeat: 3,
+  //         duration: 0.05,
+  //       });
+  //     },
+  //   });
+
+  //   gsap.to('.splash-content', {
+  //     opacity: 0,
+  //     y: -10,
+  //     duration: 0.7,
+  //     ease: 'power2.inOut',
+  //     onComplete: () => {
+  //       this.router.navigate(['/main']);
+  //       this.isAnimating = false;
+  //     },
+  //   });
+  // }
+  // openMainPage() {
+  //   if (this.isAnimating) return;
+  //   this.isAnimating = true;
+
+  //   // FIRST: Create background scale and blur effect
+  //   const effect = this.createBackgroundEffect();
+
+  //   // Animate button press
+  //   gsap.to('.open-invitation-btn', {
+  //     scale: 0.95,
+  //     duration: 0.1,
+  //     yoyo: true,
+  //     repeat: 1,
+  //     onComplete: () => {
+  //       gsap.to('.open-invitation-btn', {
+  //         x: 5,
+  //         yoyo: true,
+  //         repeat: 3,
+  //         duration: 0.05,
+  //       });
+  //     },
+  //   });
+
+  //   // Wait for background effect to complete, then trigger leaf burst
+  //   setTimeout(() => {
+  //     // Stop falling leaves
+  //     this.leafAnimations.forEach((animation) => animation.kill());
+  //     this.leaves.forEach((leaf) => leaf.remove());
+
+  //     // Create leaf burst
+  //     this.createLeafBurst();
+
+  //     // Clean up blur overlay if it exists
+  //     if (effect && effect.blurOverlay) {
+  //       gsap.to(effect.blurOverlay, {
+  //         backdropFilter: 'blur(0px)',
+  //         backgroundColor: 'rgba(0, 0, 0, 0)',
+  //         duration: 0.3,
+  //         onComplete: () => {
+  //           if (effect.blurOverlay) effect.blurOverlay.remove();
+  //         },
+  //       });
+  //     }
+
+  //     // Smooth disappear for the card
+  //     gsap.to('.splash-content', {
+  //       opacity: 0,
+  //       y: -10,
+  //       duration: 0.7,
+  //       ease: 'power2.inOut',
+  //       onComplete: () => {
+  //         this.router.navigate(['/main']);
+  //         this.isAnimating = false;
+  //       },
+  //     });
+  //   }, 500); // Wait 500ms for background effect to complete
+  // }
+
+  // openMainPage() {
+  //   if (this.isAnimating) return;
+  //   this.isAnimating = true;
+
+  //   // Add CSS class for background effect
+  //   const splashContent = document.querySelector('.splash-content');
+  //   if (splashContent) {
+  //     splashContent.classList.add('background-effect');
+  //   }
+
+  //   // Animate button press
+  //   gsap.to('.open-invitation-btn', {
+  //     scale: 0.95,
+  //     duration: 0.1,
+  //     yoyo: true,
+  //     repeat: 1,
+  //     onComplete: () => {
+  //       gsap.to('.open-invitation-btn', {
+  //         x: 5,
+  //         yoyo: true,
+  //         repeat: 3,
+  //         duration: 0.05,
+  //       });
+  //     },
+  //   });
+
+  //   // Wait for background effect to complete, then trigger leaf burst
+  //   setTimeout(() => {
+  //     // Stop falling leaves
+  //     this.leafAnimations.forEach((animation) => animation.kill());
+  //     this.leaves.forEach((leaf) => leaf.remove());
+
+  //     // Create leaf burst
+  //     this.createLeafBurst();
+
+  //     // Smooth disappear for the card
+  //     gsap.to('.splash-content', {
+  //       opacity: 0,
+  //       y: -10,
+  //       duration: 0.7,
+  //       ease: 'power2.inOut',
+  //       onComplete: () => {
+  //         this.router.navigate(['/main']);
+  //         this.isAnimating = false;
+  //       },
+  //     });
+  //   }, 500);
+  // }
   openMainPage() {
     if (this.isAnimating) return;
     this.isAnimating = true;
 
-    // Kill all animations (both Tween and Timeline)
-    this.leafAnimations.forEach((animation) => animation.kill());
-    this.leaves.forEach((leaf) => leaf.remove());
+    // Get elements with proper typing
+    const splashContent = document.querySelector('.splash-content') as HTMLElement;
 
-    this.createLeafBurst();
+    if (splashContent) {
+      // Create a wrapper for the background image
+      const bgWrapper = document.createElement('div');
+      bgWrapper.style.position = 'absolute';
+      bgWrapper.style.inset = '0';
+      bgWrapper.style.borderRadius = '16px';
+      bgWrapper.style.backgroundImage = 'url("../../assets/backgrounds/flower_background.jpg")';
+      bgWrapper.style.backgroundSize = 'cover';
+      bgWrapper.style.backgroundPosition = 'center';
+      bgWrapper.style.backgroundRepeat = 'no-repeat';
+      bgWrapper.style.zIndex = '0';
+      bgWrapper.style.pointerEvents = 'none';
 
+      // Set solid background color
+      splashContent.style.background = '#f6efe9';
+      splashContent.insertBefore(bgWrapper, splashContent.firstChild);
+
+      // Calculate scale needed to cover the screen
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const cardWidth = splashContent.clientWidth;
+      const cardHeight = splashContent.clientHeight;
+
+      const scaleX = screenWidth / cardWidth;
+      const scaleY = screenHeight / cardHeight;
+      const scale = Math.max(scaleX, scaleY) * 1.1;
+
+      // Animate background to expand and cover screen
+      gsap.to(bgWrapper, {
+        scale: scale,
+        borderRadius: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        transformOrigin: 'center',
+        onComplete: () => {
+          gsap.to(bgWrapper, {
+            opacity: 0,
+            duration: 0.3,
+            onComplete: () => {
+              bgWrapper.remove();
+            },
+          });
+        },
+      });
+    }
+
+    // Animate button press
     gsap.to('.open-invitation-btn', {
       scale: 0.95,
       duration: 0.1,
@@ -359,18 +588,28 @@ export class SplashComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     });
 
-    gsap.to('.splash-content', {
-      opacity: 0,
-      y: -10,
-      duration: 0.7,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        this.router.navigate(['/main']);
-        this.isAnimating = false;
-      },
-    });
-  }
+    // Wait for background effect, then trigger leaf burst
+    setTimeout(() => {
+      // Stop falling leaves
+      this.leafAnimations.forEach((animation) => animation.kill());
+      this.leaves.forEach((leaf) => leaf.remove());
 
+      // Create leaf burst
+      this.createLeafBurst();
+
+      // Smooth disappear for the card
+      gsap.to('.splash-content', {
+        opacity: 0,
+        y: -10,
+        duration: 0.7,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          this.router.navigate(['/main']);
+          this.isAnimating = false;
+        },
+      });
+    }, 900);
+  }
   ngOnDestroy() {
     this.leaves.forEach((leaf) => leaf.remove());
     this.leafAnimations.forEach((animation) => animation.kill());
