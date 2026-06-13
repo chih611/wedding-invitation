@@ -4,10 +4,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px 20px;
+  padding: 20px;
   position: relative;
   overflow: hidden;
-  font-family: 'Noto Sans', 'DejaVu Sans', 'Arial Unicode MS', 'Segoe UI', sans-serif;
 }
 
 .petals-container {
@@ -42,12 +41,11 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 615px;
-  width: min(92vw, 615px);
-  min-height: 500px;
+  max-width: 500px;
+  width: 85%;
   background: #f6efe9 url('../../assets/backgrounds/flower_background.jpg') center center / cover
     no-repeat;
-  padding: 50px 44px 34px;
+  padding: 35px 25px 25px;
   border-radius: 8px;
   box-shadow: 0 18px 40px rgba(31, 14, 9, 0.38);
   position: relative;
@@ -63,38 +61,33 @@
       radial-gradient(circle at bottom left, rgba(176, 145, 123, 0.2), transparent 32%);
     pointer-events: none;
   }
-
-  @media (max-width: 768px) {
-    min-height: 480px;
-    padding: 42px 24px 30px;
-  }
 }
 
 .heart-badge {
   position: absolute;
-  top: 22px;
+  top: 18px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   background: #4b2719;
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 26px;
+  font-size: 24px;
   line-height: 1;
   box-shadow: 0 8px 18px rgba(31, 14, 9, 0.25);
   z-index: 3;
 }
 
 .couple-names {
-  margin: 62px 0 14px;
+  margin: 48px 0 10px;
   position: relative;
   z-index: 2;
 
   .name {
-    font-size: 42px;
+    font-size: 36px;
     font-weight: 400;
     color: #4b2719;
     display: inline-block;
@@ -103,21 +96,22 @@
     line-height: 1;
 
     @media (max-width: 768px) {
-      font-size: 36px;
+      font-size: 28px;
       display: block;
     }
   }
 
   .ampersand {
-    font-size: 40px;
+    font-size: 32px;
     color: #4b2719;
-    margin: 0 20px;
+    margin: 0 12px;
     font-family: 'Noto Serif', 'Times New Roman', serif;
     font-weight: 400;
 
     @media (max-width: 768px) {
       display: block;
-      margin: 10px 0;
+      margin: 8px 0;
+      font-size: 26px;
     }
   }
 }
@@ -126,27 +120,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin: 6px auto 14px;
+  gap: 10px;
+  margin: 10px auto;
   color: #a88d7b;
   position: relative;
   z-index: 2;
 
   .line {
-    width: 42px;
+    width: 35px;
     height: 1px;
     background: #bda899;
   }
 
   .ornament {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1;
   }
 }
 
 .date-text {
-  margin: 0 0 20px;
-  font-size: 18px;
+  margin: 0 0 15px;
+  font-size: 16px;
   color: #8d7164;
   font-family: 'Noto Serif', 'Times New Roman', serif;
   position: relative;
@@ -159,41 +153,42 @@
   z-index: 2;
 
   .invite-line {
-    font-size: 18px;
+    font-size: 16px;
     color: #8d7164;
     letter-spacing: 1px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     font-weight: 400;
     font-family: 'Noto Serif', 'Times New Roman', serif;
   }
 
   .guest-name {
     display: inline-block;
-    font-size: 26px;
+    font-size: 24px;
     color: #4b2719;
     font-weight: 400;
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     font-family: 'Noto Serif', 'Times New Roman', serif;
     background: #ded3cd;
-    padding: 10px 22px;
-    border-radius: 14px;
+    padding: 8px 20px;
+    border-radius: 12px;
     box-shadow: 0 4px 10px rgba(31, 14, 9, 0.08);
 
     @media (max-width: 768px) {
-      font-size: 24px;
+      font-size: 20px;
+      padding: 6px 18px;
     }
   }
 
   .message {
-    font-size: 16px;
+    font-size: 15px;
     color: #8d7164;
-    line-height: 1.6;
-    max-width: 88%;
+    line-height: 1.5;
+    max-width: 90%;
     margin: 0 auto;
     font-family: 'Noto Serif', 'Times New Roman', serif;
 
     @media (max-width: 768px) {
-      font-size: 15px;
+      font-size: 13px;
       max-width: 100%;
     }
   }
@@ -203,15 +198,15 @@
   background: linear-gradient(135deg, #5b341f, #4a281a);
   color: white;
   border: none;
-  padding: 12px 34px;
-  font-size: 16px;
+  padding: 10px 28px;
+  font-size: 15px;
   border-radius: 999px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin: 4px 0 10px;
+  margin: 10px 0 8px;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-weight: 500;
   box-shadow: 0 10px 20px rgba(31, 14, 9, 0.25);
   position: relative;
@@ -239,12 +234,12 @@
   }
 
   .btn-text {
-    font-size: 16px;
+    font-size: 15px;
     font-family: 'Noto Serif', 'Times New Roman', serif;
   }
 
   .btn-icon {
-    font-size: 18px;
+    font-size: 16px;
     transition: transform 0.3s;
   }
 
@@ -254,478 +249,195 @@
 }
 
 .footer-note {
-  margin-top: 2px;
+  margin-top: 8px;
   position: relative;
   z-index: 2;
 
   p {
     color: #9a7d6f;
-    font-size: 13px;
-    letter-spacing: 1.5px;
+    font-size: 12px;
+    letter-spacing: 1px;
     font-weight: 300;
     font-family: 'Noto Serif', 'Times New Roman', serif;
   }
 }
-.splash-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #382116 0%, #2f1b12 55%, #24130d 100%);
-  padding: 50px 44px 34px;
-  align-items: center;
-  justify-content: center;
-  padding: 28px 20px;
-  position: relative;
-  overflow: hidden;
-}
 
-// Peach Blossom Petals Animation
-.petals-container {
-  margin: 62px 0 14px;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 1;
-  font-size: 42px;
-
-  .leaf {
-    position: absolute;
-    font-size: 40px;
-    left: 0;
-    width: 22px;
-    height: 22px;
-    margin: 6px auto 14px;
-    display: block;
-    opacity: 0.75;
-    object-fit: contain;
-    margin: 0 0 20px;
-    font-size: 18px;
-    z-index: 1;
-  }
-
-  margin: 0 0 12px;
-  .bg-decoration {
-    display: none;
-
-    font-size: 18px;
-    position: absolute;
-    top: -20%;
-    right: -10%;
-    font-size: 26px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(120, 80, 60, 0.18) 0%, rgba(120, 80, 60, 0) 70%);
-    margin: 0 0 12px;
-    animation: float 20s ease-in-out infinite;
-  }
-
-  .splash-container {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #382116 0%, #2f1b12 55%, #24130d 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 28px 20px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .petals-container {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 1;
-  }
-
-  .leaf {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 22px;
-    height: 22px;
-    transform-origin: center;
-    display: block;
-    object-fit: contain;
-    user-select: none;
-    -webkit-user-drag: none;
-    z-index: 1;
-    opacity: 0.75;
-  }
-
-  .bg-decoration {
-    display: none;
-  }
-
+// Mobile-specific styles (phones) - TALLER HEIGHT
+@media (max-width: 480px) {
   .splash-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    max-width: 615px;
-    width: min(92vw, 615px);
-    min-height: 500px;
-    background: #f6efe9;
-    padding: 50px 44px 34px;
+    width: 92%;
+    max-width: 400px;
+    padding: 45px 25px 38px;
     border-radius: 8px;
-    box-shadow: 0 18px 40px rgba(31, 14, 9, 0.38);
-    position: relative;
-    z-index: 3;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top right, rgba(176, 145, 123, 0.16), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(176, 145, 123, 0.2), transparent 32%);
-      pointer-events: none;
-    }
-
-    @media (max-width: 768px) {
-      min-height: 480px;
-      padding: 42px 24px 30px;
-    }
+    min-height: 500px;
   }
 
   .heart-badge {
-    position: absolute;
     top: 22px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: #4b2719;
-    color: #fff;
-    display: grid;
-    place-items: center;
-    font-size: 26px;
-    line-height: 1;
-    box-shadow: 0 8px 18px rgba(31, 14, 9, 0.25);
-    z-index: 3;
+    width: 55px;
+    height: 55px;
+    font-size: 24px;
   }
 
   .couple-names {
-    margin: 62px 0 14px;
-    position: relative;
-    z-index: 2;
+    margin: 55px 0 15px;
 
     .name {
-      font-size: 42px;
-      font-weight: 400;
-      color: #4b2719;
-      display: inline-block;
-      font-family: 'Georgia', 'Times New Roman', serif;
-      letter-spacing: 0.2px;
-      line-height: 1;
-
-      @media (max-width: 768px) {
-        font-size: 36px;
-        display: block;
-      }
+      font-size: 30px;
     }
 
     .ampersand {
-      font-size: 40px;
-      color: #4b2719;
-      margin: 0 20px;
-      font-family: 'Georgia', serif;
-      font-weight: 400;
-
-      @media (max-width: 768px) {
-        display: block;
-        margin: 10px 0;
-      }
+      font-size: 28px;
+      margin: 8px 0;
     }
   }
 
   .ornament-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     gap: 12px;
-    margin: 6px auto 14px;
-    color: #a88d7b;
-    position: relative;
-    z-index: 2;
+    margin: 15px auto;
 
     .line {
-      width: 42px;
-      height: 1px;
-      background: #bda899;
+      width: 38px;
     }
 
     .ornament {
-      font-size: 16px;
-      line-height: 1;
+      font-size: 15px;
     }
   }
 
   .date-text {
-    margin: 0 0 20px;
-    font-size: 18px;
-    color: #8d7164;
-    font-family: 'Georgia', 'Times New Roman', serif;
-    position: relative;
-    z-index: 2;
+    font-size: 16px;
+    margin: 5px 0 18px;
   }
 
   .invitation-text {
-    margin: 0 0 12px;
-    position: relative;
-    z-index: 2;
+    margin: 10px 0 18px;
 
     .invite-line {
-      font-size: 18px;
-      color: #8d7164;
-      letter-spacing: 1px;
-      margin-bottom: 14px;
-      font-weight: 400;
-      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 16px;
+      margin-bottom: 15px;
     }
 
     .guest-name {
-      display: inline-block;
-      font-size: 26px;
-      color: #4b2719;
-      font-weight: 400;
-      margin: 0 0 12px;
-      font-family: 'Georgia', serif;
-      background: #ded3cd;
-      padding: 10px 22px;
-      border-radius: 14px;
-      box-shadow: 0 4px 10px rgba(31, 14, 9, 0.08);
-
-      @media (max-width: 768px) {
-        font-size: 24px;
-      }
+      font-size: 24px;
+      padding: 8px 20px;
+      margin: 5px 0 15px;
     }
 
     .message {
-      font-size: 16px;
-      color: #8d7164;
-      line-height: 1.6;
-      max-width: 88%;
-      margin: 0 auto;
-      font-family: 'Georgia', 'Times New Roman', serif;
-
-      @media (max-width: 768px) {
-        font-size: 15px;
-        max-width: 100%;
-      }
+      font-size: 14px;
+      line-height: 1.5;
+      margin-top: 5px;
     }
   }
 
   .open-invitation-btn {
-    background: linear-gradient(135deg, #5b341f, #4a281a);
-    color: white;
-    border: none;
-    padding: 12px 34px;
+    padding: 11px 30px;
     font-size: 16px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 4px 0 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-weight: 500;
-    box-shadow: 0 10px 20px rgba(31, 14, 9, 0.25);
-    position: relative;
-    z-index: 3;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
-    }
-
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(180, 92, 104, 0.5);
-
-      &::before {
-        left: 100%;
-      }
-    }
+    margin: 15px 0 12px;
 
     .btn-text {
       font-size: 16px;
-      font-family: 'Georgia', 'Times New Roman', serif;
     }
 
     .btn-icon {
-      font-size: 18px;
-      transition: transform 0.3s;
-    }
-
-    &:hover .btn-icon {
-      transform: scale(1.2);
+      font-size: 17px;
     }
   }
 
   .footer-note {
-    margin-top: 2px;
-    position: relative;
-    z-index: 2;
+    margin-top: 12px;
 
     p {
-      color: #9a7d6f;
-      font-size: 13px;
-      letter-spacing: 1.5px;
-      font-weight: 300;
-      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 12px;
     }
   }
 }
 
-// Burst leaf animations
-.burst-leaf {
-  position: fixed;
-  pointer-events: none;
-  will-change: transform, opacity;
-  object-fit: contain;
-  animation: none !important;
-}
-
-.burst-fragment {
-  position: fixed;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-// Optional: Add a glowing effect to the burst
-@keyframes burstGlow {
-  0% {
-    filter: drop-shadow(0 0 2px rgba(255, 183, 197, 0.8));
+// Small phones (<= 380px)
+@media (max-width: 380px) {
+  .splash-content {
+    width: 90%;
+    max-width: 360px;
+    padding: 40px 22px 35px;
+    min-height: 480px;
   }
-  100% {
-    filter: drop-shadow(0 0 8px rgba(255, 183, 197, 0.3));
+
+  .heart-badge {
+    top: 20px;
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
   }
-}
 
-.burst-leaf {
-  animation: burstGlow 0.3s ease-out forwards;
-}
+  .couple-names {
+    margin: 50px 0 12px;
 
-// Glow overlay animation
-.glow-overlay {
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  pointer-events: none;
-  z-index: 10;
-  transition: all 0.3s ease;
-}
+    .name {
+      font-size: 28px;
+    }
 
-// Light beams animation
-.light-beam {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(8px);
-  pointer-events: none;
-  transform-origin: center;
-}
-
-// Atmospheric particles
-.atmospheric-particle {
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(2px);
-  animation: floatParticle 1s ease-out forwards;
-}
-
-@keyframes floatParticle {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.8;
+    .ampersand {
+      font-size: 26px;
+    }
   }
-  100% {
-    transform: translate(var(--tx, 50px), var(--ty, -50px)) scale(0);
-    opacity: 0;
+
+  .ornament-divider {
+    margin: 12px auto;
+
+    .line {
+      width: 35px;
+    }
+  }
+
+  .invitation-text {
+    .guest-name {
+      font-size: 22px !important;
+      padding: 7px 18px !important;
+    }
+
+    .message {
+      font-size: 13px !important;
+    }
   }
 }
 
-// Enhanced burst leaf with glow
-.burst-leaf {
-  position: fixed;
-  pointer-events: none;
-  will-change: transform, opacity;
-  object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(255, 200, 180, 0.6));
-  animation: leafGlow 0.5s ease-out;
-}
-
-@keyframes leafGlow {
-  0% {
-    filter: drop-shadow(0 0 2px rgba(255, 200, 180, 0.9));
+// Very small phones (<= 320px)
+@media (max-width: 320px) {
+  .splash-content {
+    width: 88%;
+    max-width: 320px;
+    padding: 35px 20px 30px;
+    min-height: 460px;
   }
-  100% {
-    filter: drop-shadow(0 0 15px rgba(255, 200, 180, 0.3));
+
+  .heart-badge {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
   }
-}
 
-.burst-fragment {
-  position: fixed;
-  pointer-events: none;
-  will-change: transform, opacity;
-  box-shadow: 0 0 6px rgba(255, 200, 180, 0.6);
-}
+  .couple-names {
+    .name {
+      font-size: 26px;
+    }
 
-// Flower and leaf shadows
-.flower-shadow {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform, opacity;
-  animation: shadowPulse 0.5s ease-out forwards;
-}
-
-.leaf-shadow {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform, opacity;
-  animation: leafShadowPulse 0.4s ease-out forwards;
-}
-
-@keyframes shadowPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
+    .ampersand {
+      font-size: 24px;
+    }
   }
-  50% {
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(3);
-    opacity: 0;
+
+  .guest-name {
+    font-size: 20px !important;
   }
 }
 
-@keyframes leafShadowPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
+// Tablet view
+@media (min-width: 481px) and (max-width: 768px) {
+  .splash-content {
+    width: 80%;
+    max-width: 450px;
+    padding: 45px 30px 35px;
+    min-height: 520px;
   }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(2);
-    opacity: 0;
-  }
-}
-
-// Radiating aura effect
-.radiating-aura {
-  position: absolute;
-  border-radius: 20px;
-  pointer-events: none;
-  will-change: transform, opacity;
 }

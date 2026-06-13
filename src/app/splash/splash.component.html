@@ -9,7 +9,20 @@
   </div>
 
   <div class="splash-content">
-    <div class="heart-badge">♥</div>
+    <!-- In splash.component.html, replace the heart badge div with: -->
+    <div class="heart-badge">
+      <svg
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        fill="white"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+        />
+      </svg>
+    </div>
 
     <div class="couple-names">
       <span class="name">Quyền</span>
@@ -28,15 +41,13 @@
     <div class="invitation-text">
       <p class="invite-line">Kính Mời</p>
       <p class="guest-name">anh Hào</p>
-      <p class="message">đến dự buổi tiệc chung vui cùng gia đình</p>
+      <p class="message">Đến dự buổi tiệc chung vui cùng gia đình</p>
     </div>
 
     <button class="open-invitation-btn" (click)="openMainPage()">
       <span class="btn-text">Mở thiệp</span>
     </button>
 
-    <div class="footer-note">
-      <p>Trân trọng kính mời</p>
-    </div>
+    <div class="footer-note"></div>
   </div>
 </div>
