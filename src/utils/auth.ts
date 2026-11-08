@@ -1,19 +1,26 @@
 /**
- * Đăng nhập trang admin, không cần server.
- * Tài khoản đặt trong file .env (ADMIN_USERNAME, ADMIN_PASSWORD). Lúc build, vite.config.ts
- * chỉ nhúng mã băm SHA-256 của tài khoản vào code (__ADMIN_HASH__), không nhúng mật khẩu.
- * Lưu ý: đây là khoá cửa đơn giản để khách không vào nhầm, nên đặt mật khẩu dài khó đoán.
+ * Đăng nhập trang admin.
+ * Tài khoản đặt trong biến môi trường ADMIN_USERNAME, ADMIN_PASSWORD (.env khi chạy trên máy, Environment Variables
+ * trên Vercel). Lúc build, vite.config.ts chỉ nhúng mã băm SHA-256 của tài khoản vào code (__ADMIN_HASH__) để
+ * kiểm tra nhanh trên trình duyệt. Việc lưu mã QR thì server (api/gift.ts) kiểm tra lại tài khoản lần nữa.
  */
 
 /** Phải giống hệt chuỗi trong vite.config.ts */
 export const AUTH_SALT = "wedding-invitation-admin";
 
 const SESSION_KEY = "admin.session";
+/** Tài khoản đã đăng nhập (dạng Basic auth), giữ trong phiên để gửi kèm khi lưu mã QR */
+const CREDENTIALS_KEY = "admin.credentials";
 
 export const adminConfigured = __ADMIN_HASH__ !== "";
 
 export function adminHashInput(username: string, password: string) {
   return `${AUTH_SALT}\n${username.trim()}\n${password}`;
+}
+
+function toBase64(text: string) {
+  const bytes = new TextEncoder().encode(text);
+  return btoa(Array.from(bytes, (b) => String.fromCharCode(b)).join(""));
 }
 
 export function login(username: string, password: string) {
@@ -22,6 +29,7 @@ export function login(username: string, password: string) {
   if (ok) {
     try {
       sessionStorage.setItem(SESSION_KEY, __ADMIN_HASH__);
+      sessionStorage.setItem(CREDENTIALS_KEY, toBase64(`${username.trim()}:${password}`));
     } catch {
       // Trình duyệt chặn lưu trữ: vẫn cho vào, chỉ là tải lại trang phải đăng nhập lại
     }
@@ -31,15 +39,30 @@ export function login(username: string, password: string) {
 
 export function isLoggedIn() {
   try {
-    return adminConfigured && sessionStorage.getItem(SESSION_KEY) === __ADMIN_HASH__;
+    return (
+      adminConfigured &&
+      sessionStorage.getItem(SESSION_KEY) === __ADMIN_HASH__ &&
+      sessionStorage.getItem(CREDENTIALS_KEY) !== null
+    );
   } catch {
     return false;
+  }
+}
+
+/** Header Authorization gửi lên server khi lưu mã QR */
+export function adminAuthHeader(): Record<string, string> {
+  try {
+    const credentials = sessionStorage.getItem(CREDENTIALS_KEY);
+    return credentials ? { Authorization: `Basic ${credentials}` } : {};
+  } catch {
+    return {};
   }
 }
 
 export function logout() {
   try {
     sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(CREDENTIALS_KEY);
   } catch {
     // bỏ qua
   }

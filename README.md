@@ -35,12 +35,17 @@ Lúc build chỉ mã băm của tài khoản được đưa vào code, không c�
 ### Mã QR mừng cưới
 
 Trong `/admin`, upload 1 ảnh mã QR nhận tiền (chụp màn hình từ app ngân hàng
-cũng được). Trang sẽ đọc mã và gắn vào mọi link thiệp (tham số `qr`).
+cũng được). Mã được lưu trên máy chủ (Vercel Blob, qua [api/gift.ts](api/gift.ts)) nên hiện ngay trên mọi link
+thiệp, kể cả link gốc và link đã gửi, không cần sửa code hay deploy lại.
+
+**Cài đặt 1 lần trên Vercel:** Storage → Create → Blob → nối với project này (Vercel tự thêm
+`BLOB_READ_WRITE_TOKEN`), rồi Redeploy. `ADMIN_USERNAME` / `ADMIN_PASSWORD` phải có trong Environment Variables.
+Chạy `npm run dev` trên máy thì không có máy chủ này, nên không lưu được mã QR.
 
 - Có mã thì thiệp hiện **Hộp mừng cưới**; không upload thì phần này ẩn hẳn.
-- Mã VietQR của ngân hàng được vẽ lại và tự điền nội dung "Mung cuoi <tên khách>".
+- Mã VietQR của ngân hàng được vẽ lại, không điền sẵn nội dung chuyển khoản (khách tự ghi).
+  Muốn điền sẵn thì ghi vào `giftMessage` trong [src/data/wedding.ts](src/data/wedding.ts).
   Mã khác (MoMo, ZaloPay...) được giữ nguyên.
-- Chỉ link tạo **sau** khi upload mới có mã QR. Đổi mã thì cần gửi lại link mới.
 - **Kiểm tra trước khi gửi link:** sau khi upload, trang admin hiện mã QR đã vẽ lại. Mở app ngân hàng,
   quét mã đó (không cần chuyển tiền) và xem tên người nhận, số tài khoản có đúng không.
 

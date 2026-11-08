@@ -2,11 +2,10 @@ import jsQR from "jsqr";
 import { bankNameFromBin, buildVietQrPayload, parseVietQr, toTransferText } from "./vietqr";
 
 /**
- * Mã QR mừng cưới được gắn thẳng vào link thiệp (không cần server):
- *   /?to=Anh%20Nam&qr=970436.0123456789.BUI+THI+THU+HUONG
- * - Link không có tham số qr thì thiệp không hiện hộp mừng cưới.
+ * Mã hoá mã QR mừng cưới thành chuỗi ngắn để lưu trên máy chủ (api/gift.ts).
+ * Link cũ có dạng /?to=...&qr=970436.0123456789.BUI+THI+THU+HUONG vẫn đọc được.
  * - Mã VietQR được rút gọn thành "BIN.số tài khoản.tên chủ TK" để link ngắn
- *   và để thiệp tự điền nội dung "Mung cuoi <tên khách>".
+ *   và để thiệp tự điền nội dung chuyển khoản (giftMessage trong wedding.ts).
  * - Mã QR khác (MoMo, ZaloPay...) giữ nguyên nội dung gốc.
  */
 
@@ -58,12 +57,6 @@ export function decodeGift(value: string | null): GiftQr | null {
 /** Nội dung để vẽ mã QR trên thiệp */
 export function giftPayload(gift: GiftQr, message: string) {
   return gift.kind === "bank" ? buildVietQrPayload(gift.bin, gift.accountNumber, message) : gift.payload;
-}
-
-/** Tham số mã QR để ghép vào link, ví dụ "qr=970436.0123456789". Chưa có mã thì trả về "" */
-export function giftQuery(value: string) {
-  const text = value.trim();
-  return text ? new URLSearchParams({ [GIFT_PARAM]: text }).toString() : "";
 }
 
 /** Đọc mã QR trong ảnh (ảnh chụp màn hình app ngân hàng cũng được) */

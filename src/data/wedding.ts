@@ -92,6 +92,12 @@ export const wedding = {
   },
 
   /**
+   * Nội dung chuyển khoản tự điền khi khách quét mã QR (chỉ với mã VietQR ngân hàng).
+   * Để trống ("") thì khách tự ghi. Ngân hàng không nhận chữ có dấu nên sẽ tự bỏ dấu; tối đa 25 ký tự.
+   */
+  giftMessage: "",
+
+  /**
    * Nhạc nền: đặt file mp3 vào public/music/ rồi ghi tên ở đây.
    * Không có file thì nút nhạc tự ẩn.
    */

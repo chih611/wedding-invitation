@@ -10,16 +10,11 @@ const btn =
 const btnPrimary = `${btn} bg-navy text-white hover:bg-navy-light`;
 const btnOutline = `${btn} border border-navy text-navy hover:bg-navy/5`;
 
-interface Props {
-  /** Tham số mã QR mừng cưới gắn thêm vào mọi link, ví dụ "qr=..." */
-  giftQuery: string;
-}
-
 /**
  * Tạo link mời có tên từng khách và gửi nhanh.
  * Danh sách khách và trạng thái "đã gửi" được lưu trong trình duyệt.
  */
-export default function GuestLinks({ giftQuery }: Props) {
+export default function GuestLinks() {
   const [rawNames, setRawNames] = useLocalStorage("guests.raw", "");
   const [sent, setSent] = useLocalStorage<string[]>("guests.sent", []);
   const [hideSent, setHideSent] = useState(false);
@@ -29,11 +24,11 @@ export default function GuestLinks({ giftQuery }: Props) {
   const [importMsg, setImportMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   const origin = window.location.origin;
-  const generalUrl = invitationUrl(origin, "", giftQuery);
+  const generalUrl = invitationUrl(origin, "");
   const sentSet = new Set(sent);
 
   const guests = parseGuestNames(rawNames).map((name) => {
-    const url = invitationUrl(origin, name, giftQuery);
+    const url = invitationUrl(origin, name);
     return { name, url, sent: sentSet.has(name) };
   });
   const visible = hideSent ? guests.filter((g) => !g.sent) : guests;

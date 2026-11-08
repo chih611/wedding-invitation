@@ -6,23 +6,17 @@ import { giftModalPhoto, giftPhoto, photoUrl } from "../../data/photos";
 import { useGift } from "../../hooks/useGift";
 import type { GiftQr } from "../../utils/gift";
 
-interface Props {
-  guestName: string;
-}
-
 /**
  * Hộp mừng cưới: băng rôn (ảnh bên trái, chữ bên phải), bấm vào thì mở cửa sổ mã QR.
- * Mã QR upload ở trang /admin và được gắn vào link thiệp. Link không có mã thì phần này ẩn hẳn.
+ * Mã QR upload ở trang /admin và lưu trên máy chủ. Chưa có mã thì phần này ẩn hẳn.
  */
-export default function GiftBox({ guestName }: Props) {
+export default function GiftBox() {
   const gift = useGift();
   const [open, setOpen] = useState(false);
 
   if (!gift) return null;
 
-  const message = guestName
-    ? `Mung cuoi ${guestName}`
-    : `Mung cuoi ${wedding.bride.shortName} ${wedding.groom.shortName}`;
+  const message = wedding.giftMessage;
 
   return (
     <>
@@ -71,7 +65,7 @@ interface DialogProps {
   onClose: () => void;
 }
 
-/** Cửa sổ mã QR: ảnh ở trên, mã QR trong khung viền trắng trên nền navy */
+/** Cửa sổ mã QR: ảnh ở trên, mã QR trong khung viền navy trên nền xanh nhạt như thiệp */
 function GiftDialog({ gift, message, onClose }: DialogProps) {
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -98,7 +92,7 @@ function GiftDialog({ gift, message, onClose }: DialogProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Quà tặng cô dâu, chú rể"
-        className="relative max-h-full w-full max-w-[420px] overflow-y-auto bg-navy text-center shadow-2xl"
+        className="relative max-h-full w-full max-w-[420px] overflow-y-auto bg-tint text-center shadow-2xl"
         initial={{ opacity: 0, y: 40, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 40, scale: 0.96 }}
@@ -118,8 +112,8 @@ function GiftDialog({ gift, message, onClose }: DialogProps) {
         </button>
 
         <div className="px-5 py-6">
-          <GiftQrCard label="Mừng cưới" gift={gift} message={message} tone="dark" />
-          <p className="mt-5 text-balance text-xs leading-relaxed text-white/75">
+          <GiftQrCard label="Mừng cưới" gift={gift} message={message} tone="framed" />
+          <p className="mt-5 text-balance text-xs leading-relaxed text-navy/70">
             Cảm ơn tình cảm và lời chúc phúc bạn dành cho chúng mình
           </p>
         </div>

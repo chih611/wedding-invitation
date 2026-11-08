@@ -73,7 +73,7 @@ export default function InvitationLayout() {
         </Block>
 
         {/* Băng rôn tràn hết bề ngang cột nên không bọc trong Block */}
-        <GiftBox guestName={guestName} />
+        <GiftBox />
 
         <Block tint>
           <Section className="text-center">

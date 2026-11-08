@@ -3,14 +3,23 @@ import GiftQrCard from "../invitation/GiftQrCard";
 import { decodeGift, encodeGift, giftFromPayload, normalizeAccountName, readQrFromImage } from "../../utils/gift";
 import { wedding } from "../../data/wedding";
 
+export type SaveState =
+  | { kind: "loading" }
+  | { kind: "idle" }
+  | { kind: "saving" }
+  | { kind: "saved"; text: string }
+  | { kind: "error"; text: string };
+
 interface Props {
-  /** Mã QR đã mã hoá để gắn vào link, "" nếu chưa có */
+  /** Mã QR đang lưu trên máy chủ (đã mã hoá), "" nếu chưa có */
   value: string;
+  /** Lưu mã mới lên máy chủ ("" để xoá) */
   onChange: (value: string) => void;
+  state: SaveState;
 }
 
 /** Upload ảnh mã QR mừng cưới. Không có mã thì thiệp không hiện hộp mừng cưới. */
-export default function GiftQrManager({ value, onChange }: Props) {
+export default function GiftQrManager({ value, onChange, state }: Props) {
   const [busy, setBusy] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
@@ -50,9 +59,12 @@ export default function GiftQrManager({ value, onChange }: Props) {
   }
 
   function setAccountName(name: string) {
-    if (gift?.kind !== "bank") return;
+    if (gift?.kind !== "bank" || name === gift.accountName) return;
     onChange(encodeGift({ ...gift, accountName: name }));
   }
+
+  // Đang đọc ảnh, đang tải hoặc đang lưu thì khoá nút chọn ảnh
+  const locked = busy || state.kind === "loading" || state.kind === "saving";
 
   const picker = (text: string, big: boolean) => (
     <label
@@ -79,13 +91,15 @@ export default function GiftQrManager({ value, onChange }: Props) {
           <path d="M3 3h8v8H3V3Zm2 2v4h4V5H5Zm8-2h8v8h-8V3Zm2 2v4h4V5h-4ZM3 13h8v8H3v-8Zm2 2v4h4v-4H5Zm13-2h3v2h-3v-2Zm-5 0h3v3h-3v-3Zm3 3h2v2h-2v-2Zm2 2h3v3h-3v-3Zm-5 1h3v2h-3v-2Z" />
         </svg>
       )}
-      <span className={big ? "text-sm font-semibold" : ""}>{busy ? "Đang đọc ảnh..." : text}</span>
+      <span className={big ? "text-sm font-semibold" : ""}>
+        {busy ? "Đang đọc ảnh..." : state.kind === "saving" ? "Đang lưu..." : text}
+      </span>
       {big && <span className="text-xs text-navy/70">hoặc kéo thả ảnh vào đây</span>}
       <input
         type="file"
         accept="image/*"
         className="sr-only"
-        disabled={busy}
+        disabled={locked}
         onChange={(e) => {
           handleFile(e.target.files?.[0]);
           e.target.value = "";
@@ -99,8 +113,9 @@ export default function GiftQrManager({ value, onChange }: Props) {
       <header>
         <h2 className="text-lg font-semibold">Mã QR mừng cưới</h2>
         <p className="mt-1 text-sm text-navy/70">
-          Tải lên ảnh mã QR nhận tiền (chụp màn hình từ app ngân hàng cũng được). Mã được gắn vào link thiệp, nên chỉ
-          link tạo <b>sau</b> khi upload mới có hộp mừng cưới. Không upload thì thiệp không hiện phần này.
+          Tải lên ảnh mã QR nhận tiền (chụp màn hình từ app ngân hàng cũng được). Mã được lưu lên máy chủ và hiện ngay
+          trên mọi link thiệp, kể cả link gốc và các link đã gửi (chậm nhất khoảng 30 giây). Không có mã thì thiệp
+          không hiện hộp mừng cưới.
         </p>
       </header>
 
@@ -113,7 +128,9 @@ export default function GiftQrManager({ value, onChange }: Props) {
               <button
                 type="button"
                 className="text-xs font-semibold text-red-600 underline"
+                disabled={locked}
                 onClick={() => {
+                  if (!window.confirm("Xoá mã QR? Thiệp sẽ không còn hiện hộp mừng cưới.")) return;
                   onChange("");
                   setMsg(null);
                 }}
@@ -129,7 +146,7 @@ export default function GiftQrManager({ value, onChange }: Props) {
             <GiftQrCard
               label="Mừng cưới"
               gift={gift}
-              message={`Mung cuoi ${wedding.bride.shortName} ${wedding.groom.shortName}`}
+              message={wedding.giftMessage}
               compact
             />
             <p className="rounded-md bg-amber-50 px-3 py-2 text-left text-xs text-amber-900">
@@ -153,6 +170,8 @@ export default function GiftQrManager({ value, onChange }: Props) {
               </label>
             )}
           </div>
+        ) : state.kind === "loading" ? (
+          <p className="py-8 text-center text-sm text-navy/70">Đang tải mã QR đã lưu...</p>
         ) : (
           picker("Chọn ảnh mã QR", true)
         )}
@@ -162,7 +181,22 @@ export default function GiftQrManager({ value, onChange }: Props) {
             {msg.text}
           </p>
         )}
+        {(state.kind === "saved" || state.kind === "error" || state.kind === "saving") && (
+          <p
+            className={`mt-2 rounded-md px-3 py-2 text-xs ${
+              state.kind === "error"
+                ? "bg-red-50 text-red-700"
+                : state.kind === "saved"
+                  ? "bg-green-50 text-green-800"
+                  : "bg-paper text-navy/70"
+            }`}
+            role="status"
+          >
+            {state.kind === "saving" ? "Đang lưu lên máy chủ..." : state.text}
+          </p>
+        )}
       </div>
     </section>
   );
 }
+

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
+import { createPortal } from "react-dom";
 import { giftPayload, type GiftQr } from "../../utils/gift";
 import { toTransferText } from "../../utils/vietqr";
 
@@ -10,16 +11,17 @@ interface Props {
   message: string;
   /** Ẩn nút lưu ảnh (dùng khi xem trước trong trang admin) */
   compact?: boolean;
-  /** light: chữ navy trên nền trắng. dark: chữ trắng trong khung viền trắng, dùng trên nền navy */
-  tone?: "light" | "dark";
+  /** light: không khung (trang admin). framed: khung viền navy bo góc, nền trắng (cửa sổ mã QR) */
+  tone?: "light" | "framed";
 }
 
 /** Một mã QR chuyển khoản kèm ngân hàng, số tài khoản, nút chép và lưu ảnh */
 export default function GiftQrCard({ label, gift, message, compact = false, tone = "light" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [copied, setCopied] = useState(false);
+  /** Ảnh QR hiện to để khách nhấn giữ và lưu (khi trình duyệt không cho tải file) */
+  const [preview, setPreview] = useState<string | null>(null);
   const isBank = gift.kind === "bank";
-  const transferText = isBank ? toTransferText(message) : "";
   const payload = giftPayload(gift, message);
 
   async function copyAccount() {
@@ -33,25 +35,57 @@ export default function GiftQrCard({ label, gift, message, compact = false, tone
     setTimeout(() => setCopied(false), 1500);
   }
 
-  function saveQr() {
+  /**
+   * Lưu ảnh QR, thử lần lượt:
+   * 1. Điện thoại có bảng chia sẻ file (Safari iOS, Chrome Android): mở bảng chia sẻ → "Lưu ảnh".
+   * 2. Máy tính: tải file về.
+   * 3. Còn lại (trình duyệt trong Zalo, Messenger... thường chặn tải file): hiện ảnh to để khách nhấn giữ → Lưu ảnh.
+   */
+  async function saveQr() {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const a = document.createElement("a");
-    a.href = canvas.toDataURL("image/png");
-    a.download = `qr-${toTransferText(label, 40).toLowerCase().replace(/ /g, "-")}.png`;
-    a.click();
+    const fileName = `qr-${toTransferText(label, 40).toLowerCase().replace(/ /g, "-") || "mung-cuoi"}.png`;
+    const dataUrl = canvas.toDataURL("image/png");
+    const touch = window.matchMedia("(pointer: coarse)").matches;
+
+    try {
+      const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
+      if (blob && touch) {
+        const file = new File([blob], fileName, { type: "image/png" });
+        if (navigator.canShare?.({ files: [file] })) {
+          await navigator.share({ files: [file] });
+          return;
+        }
+      }
+    } catch (e) {
+      // Khách bấm huỷ bảng chia sẻ thì thôi, lỗi khác thì thử cách tiếp theo
+      if (e instanceof DOMException && e.name === "AbortError") return;
+    }
+
+    if (!touch) {
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = fileName;
+      // Firefox chỉ tải khi thẻ <a> nằm trong trang
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      return;
+    }
+
+    setPreview(dataUrl);
   }
 
-  // Hai kiểu màu: chữ navy trên nền trắng (trang admin) / chữ trắng trên nền navy (thiệp)
+  // Hai kiểu: không khung (trang admin) / có khung viền navy bo góc, nền trắng (cửa sổ mã QR trên thiệp)
   const c =
-    tone === "dark"
+    tone === "framed"
       ? {
-          box: "rounded-2xl border-2 border-white/90 px-5 py-6 text-white",
+          box: "rounded-2xl border-2 border-navy/70 bg-white px-5 py-6 text-navy",
           qr: "rounded-lg bg-white p-2",
-          muted: "text-white/70",
-          soft: "text-white/85",
-          copy: "border-white/50 hover:bg-white/10",
-          save: "bg-white text-navy hover:bg-white/90",
+          muted: "text-navy/60",
+          soft: "text-navy/80",
+          copy: "border-navy/30 hover:bg-navy/5",
+          save: "bg-navy text-white hover:bg-navy-light",
         }
       : {
           box: "",
@@ -78,9 +112,6 @@ export default function GiftQrCard({ label, gift, message, compact = false, tone
           title={`Mã QR chuyển khoản ${label}`}
         />
       </div>
-      <p className={`mt-2 text-[11px] ${c.muted}`}>
-        {isBank ? "Quét bằng app ngân hàng bất kỳ" : "Quét bằng app ngân hàng hoặc ví điện tử"}
-      </p>
 
       {isBank && (
         <dl className="mt-4 space-y-1.5 text-sm">
@@ -107,12 +138,6 @@ export default function GiftQrCard({ label, gift, message, compact = false, tone
               {copied ? "Đã chép" : "Chép"}
             </button>
           </div>
-          {transferText && (
-            <div className={`text-xs ${c.muted}`}>
-              <dt className="inline">Nội dung: </dt>
-              <dd className="inline">{transferText}</dd>
-            </div>
-          )}
         </dl>
       )}
 
@@ -128,11 +153,35 @@ export default function GiftQrCard({ label, gift, message, compact = false, tone
             </svg>
             Lưu ảnh QR
           </button>
-          <p className={`mt-2 text-[11px] ${c.muted}`}>
-            Đang xem trên điện thoại? Lưu ảnh rồi mở app ngân hàng, chọn quét QR từ ảnh.
-          </p>
         </>
       )}
+
+      {/* Gắn thẳng vào <body>, vì cửa sổ mã QR có hiệu ứng thu phóng làm lệch vị trí lớp phủ toàn màn hình */}
+      {preview &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[70] flex flex-col items-center justify-center gap-4 bg-black/85 p-6 text-center text-white"
+            onClick={() => setPreview(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Lưu ảnh mã QR"
+          >
+            <p className="text-sm font-semibold">Nhấn giữ vào ảnh rồi chọn “Lưu ảnh”</p>
+            <img
+              src={preview}
+              alt={`Mã QR chuyển khoản ${label}`}
+              className="w-full max-w-[320px] rounded-lg bg-white"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              type="button"
+              className="rounded-full border border-white/60 px-6 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-white/10"
+            >
+              Đóng
+            </button>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
