@@ -63,6 +63,24 @@ Danh sách và trạng thái đã gửi lưu trên trình duyệt đang dùng, n
 Toàn bộ tên, địa chỉ, giờ giấc nằm trong [src/data/wedding.ts](src/data/wedding.ts).
 Danh sách tên ngân hàng (hiện dưới mã QR) nằm trong [src/utils/vietqr.ts](src/utils/vietqr.ts) (`BANK_BINS`).
 
+### Lịch trình tiệc, dress code, màu sắc
+
+- `schedule` và `dressCode` trong [src/data/wedding.ts](src/data/wedding.ts) đang là nội dung mẫu, nhớ sửa lại.
+  Xoá hết dòng của mục nào thì phần đó ẩn khỏi thiệp.
+- Màu chủ đạo (xanh navy `navy`, xanh đậm `royal`, nền `paper`) nằm đầu [src/index.css](src/index.css).
+
+### Ảnh cưới
+
+- Ảnh lớn nằm trong `public/photos/`, ảnh nhỏ (400px) trong `public/photos/thumbs/`, cùng tên file.
+- Danh sách ảnh trong album và ảnh lớn ở đầu thiệp (`heroPhoto`) nằm trong [src/data/photos.ts](src/data/photos.ts).
+  Bỏ một dòng là ảnh đó không hiện; đổi thứ tự dòng là đổi thứ tự trong album.
+
+### Nhạc nền
+
+Đặt file nhạc vào `public/music/mot-doi.mp3` (hoặc tên khác rồi sửa `music.src` trong
+[src/data/wedding.ts](src/data/wedding.ts)). Nhạc tự phát khi mở thiệp (nếu trình duyệt chặn thì phát ở lần đầu khách chạm vào trang), có nút bật/tắt ở
+góc dưới bên phải. Chưa có file thì nút nhạc tự ẩn.
+
 ## Deploy
 
 ```bash

@@ -11,3 +11,14 @@ export function toVietnamDateParts(iso: string) {
   const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
   return [get("day"), get("month"), get("year")] as const;
 }
+
+/** Các ô của lịch tháng, tuần bắt đầu từ thứ Hai. Ô trống đầu tháng là null. month: 1 - 12 */
+export function monthCells(year: number, month: number): (number | null)[] {
+  const daysInMonth = new Date(year, month, 0).getDate();
+  // getDay(): 0 = Chủ nhật. Đổi sang 0 = thứ Hai.
+  const leadingBlanks = (new Date(year, month - 1, 1).getDay() + 6) % 7;
+  return [
+    ...Array.from({ length: leadingBlanks }, () => null),
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  ];
+}

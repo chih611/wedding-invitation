@@ -70,6 +70,35 @@ export const wedding = {
     timeLabel: "11H00",
     lunarDate: "Nhằm ngày 11 tháng 11 năm Bính Ngọ",
   },
+
+  /** Lịch trình tiệc (nội dung mẫu, sửa lại cho đúng). Xoá hết các dòng thì phần này ẩn. */
+  schedule: [
+    { time: "11:00", title: "Đón khách" },
+    { time: "11:30", title: "Làm lễ thành hôn" },
+    { time: "12:00", title: "Khai tiệc" },
+    { time: "13:00", title: "Giao lưu & chụp ảnh" },
+    { time: "13:30", title: "Tung hoa cưới" },
+  ],
+
+  /** Dress code (nội dung mẫu, sửa lại cho đúng). Xoá hết màu thì phần này ẩn. */
+  dressCode: {
+    note: "Chúng mình sẽ rất vui nếu bạn diện trang phục theo tông màu dưới đây",
+    colors: [
+      { name: "Trắng", hex: "#ffffff" },
+      { name: "Xanh nhạt", hex: "#cfdcf2" },
+      { name: "Xanh dương", hex: "#6f8fd0" },
+      { name: "Xanh navy", hex: "#1d2c6b" },
+    ],
+  },
+
+  /**
+   * Nhạc nền: đặt file mp3 vào public/music/ rồi ghi tên ở đây.
+   * Không có file thì nút nhạc tự ẩn.
+   */
+  music: {
+    src: "/music/mot-doi.mp3",
+    title: "Một Đời",
+  },
 };
 
 export const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(

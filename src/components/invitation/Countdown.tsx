@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Section from "../common/Section";
+import Ornament from "../common/Ornament";
 
 interface Props {
   target: string;
@@ -30,7 +31,8 @@ export default function Countdown({ target }: Props) {
 
   return (
     <Section className="text-center">
-      <p className="font-script text-4xl text-royal">Save the date</p>
+      <p className="font-script text-4xl text-royal">Đếm ngược ngày vui</p>
+      <Ornament className="mt-2" />
 
       {remaining.done ? (
         <p className="mt-3 text-sm uppercase tracking-wide">Cảm ơn bạn đã đến chung vui cùng chúng mình!</p>
@@ -39,7 +41,7 @@ export default function Countdown({ target }: Props) {
           {remaining.units.map((u) => (
             <div
               key={u.label}
-              className="w-[72px] rounded-md border border-navy/20 bg-white py-3 shadow-sm"
+              className="w-[72px] rounded-md border border-navy/20 bg-white py-3 shadow-[0_8px_20px_-8px_rgb(29_44_107/0.4)]"
             >
               <p className="font-serif text-2xl font-semibold tabular-nums">
                 {String(u.value).padStart(2, "0")}

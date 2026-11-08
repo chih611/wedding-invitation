@@ -17,7 +17,7 @@ export default function VenueActions() {
 
   return (
     <Section className="mx-auto w-full max-w-[460px]">
-      <div className="overflow-hidden rounded-md border border-navy/15 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-md border border-navy/15 bg-white shadow-[0_10px_30px_-12px_rgb(29_44_107/0.35)]">
         <iframe
           title={`Bản đồ ${reception.venueName}`}
           src={embedUrl}

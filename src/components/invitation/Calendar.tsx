@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Heart from "../common/Heart";
+import { monthCells } from "../../utils/date";
 
 const WEEKDAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 const MONTHS = [
@@ -16,13 +17,7 @@ interface Props {
 
 /** Lịch tháng, tuần bắt đầu từ thứ Hai, ngày cưới có trái tim */
 export default function Calendar({ year, month, highlightDay }: Props) {
-  const daysInMonth = new Date(year, month, 0).getDate();
-  // getDay(): 0 = Chủ nhật. Đổi sang 0 = thứ Hai.
-  const leadingBlanks = (new Date(year, month - 1, 1).getDay() + 6) % 7;
-  const cells: (number | null)[] = [
-    ...Array.from({ length: leadingBlanks }, () => null),
-    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
-  ];
+  const cells = monthCells(year, month);
 
   return (
     <div className="relative mx-auto mt-6 max-w-[360px] border border-navy/70 px-2 pb-3 pt-5">
