@@ -23,12 +23,20 @@ export default function MusicPlayer() {
     let userPaused = false;
 
     function startOnFirstTouch(e: Event) {
-      stopListening();
       // Lần chạm đầu là vào nút nhạc thì để nút tự xử lý, không phát rồi tắt ngay
-      if (buttonRef.current?.contains(e.target as Node)) return;
-      if (!userPaused) audio?.play().catch(() => {});
+      if (buttonRef.current?.contains(e.target as Node) || userPaused) {
+        stopListening();
+        return;
+      }
+      // Chỉ thôi chờ khi đã phát được; trình duyệt còn chặn thì đợi lần chạm sau
+      audio
+        ?.play()
+        .then(stopListening)
+        .catch(() => {});
     }
-    const events = ["pointerdown", "keydown", "touchstart"] as const;
+    // Điện thoại chỉ cho phát nhạc ở lúc nhấc ngón tay (touchend / pointerup / click),
+    // chạm xuống (touchstart, pointerdown) không tính
+    const events = ["pointerdown", "pointerup", "touchend", "click", "keydown"] as const;
     function stopListening() {
       events.forEach((name) => window.removeEventListener(name, startOnFirstTouch, true));
     }

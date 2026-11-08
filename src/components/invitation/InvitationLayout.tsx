@@ -18,10 +18,11 @@ import Monogram from "../common/Monogram";
 import Ornament from "../common/Ornament";
 import Schedule from "./Schedule";
 import DressCode from "./DressCode";
+import Rsvp from "./Rsvp";
 
 /**
  * Thiệp đầy đủ: ảnh lớn → Lễ Vu Quy → thiệp mời tiệc → bản đồ → lịch trình → dress code
- * → album ảnh → đếm ngược → hộp mừng cưới → lời cảm ơn.
+ * → album ảnh → đếm ngược → xác nhận tham dự → hộp mừng cưới → lời cảm ơn.
  */
 export default function InvitationLayout() {
   const guestName = useGuestName();
@@ -71,6 +72,13 @@ export default function InvitationLayout() {
         <Block tint>
           <Countdown target={wedding.reception.start} />
         </Block>
+
+        {/* Chưa điền link Google Form thì ẩn cả phần này */}
+        {wedding.rsvp.formUrl && (
+          <Block>
+            <Rsvp guestName={guestName} />
+          </Block>
+        )}
 
         {/* Băng rôn tràn hết bề ngang cột nên không bọc trong Block */}
         <GiftBox />

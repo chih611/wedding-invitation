@@ -14,6 +14,14 @@ export interface Person {
   order: string;
 }
 
+export type ScheduleIcon = "camera" | "rings" | "cheers" | "party" | "bouquet";
+
+export interface ScheduleItem {
+  time: string;
+  title: string;
+  icon: ScheduleIcon;
+}
+
 export interface WeddingEvent {
   /** Thời điểm bắt đầu, luôn ghi kèm múi giờ Việt Nam (+07:00) */
   start: string;
@@ -71,14 +79,17 @@ export const wedding = {
     lunarDate: "Nhằm ngày 11 tháng 11 năm Bính Ngọ",
   },
 
-  /** Lịch trình tiệc (nội dung mẫu, sửa lại cho đúng). Xoá hết các dòng thì phần này ẩn. */
+  /**
+   * Lịch trình tiệc (nội dung mẫu, sửa lại cho đúng). Xoá hết các dòng thì phần này ẩn.
+   * icon: camera (máy ảnh), rings (nhẫn), cheers (ly rượu), party (quả cầu disco), bouquet (bó hoa).
+   */
   schedule: [
-    { time: "11:00", title: "Đón khách" },
-    { time: "11:30", title: "Làm lễ thành hôn" },
-    { time: "12:00", title: "Khai tiệc" },
-    { time: "13:00", title: "Giao lưu & chụp ảnh" },
-    { time: "13:30", title: "Tung hoa cưới" },
-  ],
+    { time: "11:00", title: "Đón khách", icon: "camera" },
+    { time: "11:30", title: "Lễ cưới", icon: "rings" },
+    { time: "12:00", title: "Khai tiệc", icon: "cheers" },
+    { time: "13:00", title: "Hoạt động vui vẻ", icon: "party" },
+    { time: "13:30", title: "Tung hoa", icon: "bouquet" },
+  ] satisfies ScheduleItem[],
 
   /** Dress code (nội dung mẫu, sửa lại cho đúng). Xoá hết màu thì phần này ẩn. */
   dressCode: {
@@ -92,6 +103,25 @@ export const wedding = {
   },
 
   /**
+   * Form xác nhận tham dự, câu trả lời được gửi vào Google Form (xem README, mục "Form xác nhận tham dự").
+   * formUrl lấy từ biến VITE_RSVP_FORM_URL trong .env (Vercel: Environment Variables). Để trống thì form ẩn khỏi thiệp.
+   * Các lựa chọn bên dưới phải giống HỆT các lựa chọn trong Google Form (kể cả dấu, hoa thường).
+   */
+  rsvp: {
+    formUrl: (import.meta.env.VITE_RSVP_FORM_URL ?? "").trim(),
+    fields: {
+      name: "entry.311504078",
+      message: "entry.508937073",
+      attending: "entry.2048936796",
+      companion: "entry.1200854592",
+      guestOf: "entry.2069028892",
+    },
+    attendingOptions: ["Mình sẽ đến", "Rất tiếc, mình không đến được"],
+    companionOptions: ["1 người", "2 người", "3 người", "4 người"],
+    guestOfOptions: ["Khách của cô dâu", "Khách của chú rể"],
+  },
+
+  /**
    * Nội dung chuyển khoản tự điền khi khách quét mã QR (chỉ với mã VietQR ngân hàng).
    * Để trống ("") thì khách tự ghi. Ngân hàng không nhận chữ có dấu nên sẽ tự bỏ dấu; tối đa 25 ký tự.
    */
@@ -102,8 +132,8 @@ export const wedding = {
    * Không có file thì nút nhạc tự ẩn.
    */
   music: {
-    src: "/music/mot-doi.mp3",
-    title: "Một Đời",
+    src: "/music/hon-ca-yeu.mp3",
+    title: "Hơn Cả Yêu",
   },
 };
 

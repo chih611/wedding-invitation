@@ -74,6 +74,32 @@ Danh sách tên ngân hàng (hiện dưới mã QR) nằm trong [src/utils/vietq
   Xoá hết dòng của mục nào thì phần đó ẩn khỏi thiệp.
 - Màu chủ đạo (xanh navy `navy`, xanh đậm `royal`, nền `paper`) nằm đầu [src/index.css](src/index.css).
 
+### Form xác nhận tham dự (Google Form)
+
+Câu trả lời của khách được gửi thẳng vào Google Form, xem ở tab **Câu trả lời** (hoặc nối sang Google Sheets).
+
+1. Tạo Google Form mới với 5 câu hỏi, đúng loại và đúng các lựa chọn trong `rsvp` ở
+   [src/data/wedding.ts](src/data/wedding.ts):
+   - **Tên của bạn**: Câu trả lời ngắn
+   - **Gửi lời nhắn đến cô dâu chú rể**: Đoạn
+   - **Bạn sẽ đến chứ?**: Menu thả xuống, lựa chọn giống `attendingOptions`
+   - **Bạn tham dự cùng ai?**: Menu thả xuống, lựa chọn giống `companionOptions`
+   - **Bạn là khách mời của ai?**: Menu thả xuống, lựa chọn giống `guestOfOptions`
+
+   Lựa chọn phải giống hệt từng chữ, nếu không Google sẽ bỏ qua câu trả lời đó.
+   Không bật "Bắt buộc" cho câu nào và không bật thu thập email (thiệp đã tự kiểm tra rồi).
+2. Bấm biểu tượng con mắt (**Xem trước**) rồi chép địa chỉ trên thanh trình duyệt, dạng
+   `https://docs.google.com/forms/d/e/.../viewform` (link rút gọn `forms.gle/...` không dùng được).
+   Ghi vào biến `VITE_RSVP_FORM_URL`:
+   - Chạy trên máy: trong file `.env` (xem `.env.example`).
+   - Vercel: **Settings → Environment Variables** → thêm `VITE_RSVP_FORM_URL` → **Redeploy**.
+3. Lấy mã từng câu: menu **⋮** → **Lấy đường liên kết điền sẵn** → điền thử mỗi câu một giá trị →
+   **Lấy đường liên kết** → **Sao chép**. Link có dạng `...&entry.123456=Tên&entry.234567=...`;
+   ghi từng `entry.<số>` vào `rsvp.fields` theo đúng câu hỏi.
+4. Mở thiệp, gửi thử một câu trả lời rồi xem trong Google Form đã nhận chưa.
+
+`VITE_RSVP_FORM_URL` để trống thì phần xác nhận tham dự ẩn khỏi thiệp. Nếu đổi lời các lựa chọn, sửa ở cả hai nơi.
+
 ### Ảnh cưới
 
 - Ảnh lớn nằm trong `public/photos/`, ảnh nhỏ (400px) trong `public/photos/thumbs/`, cùng tên file.
@@ -82,7 +108,7 @@ Danh sách tên ngân hàng (hiện dưới mã QR) nằm trong [src/utils/vietq
 
 ### Nhạc nền
 
-Đặt file nhạc vào `public/music/mot-doi.mp3` (hoặc tên khác rồi sửa `music.src` trong
+Đặt file nhạc vào `public/music/hon-ca-yeu.mp3` (hoặc tên khác rồi sửa `music.src` trong
 [src/data/wedding.ts](src/data/wedding.ts)). Nhạc tự phát khi mở thiệp (nếu trình duyệt chặn thì phát ở lần đầu khách chạm vào trang), có nút bật/tắt ở
 góc dưới bên phải. Chưa có file thì nút nhạc tự ẩn.
 
