@@ -14,12 +14,15 @@
     "@tailwindcss/vite": "^4.3.5",
     "@tsparticles/react": "^4.5.3",
     "framer-motion": "^14.10.1",
+    "jsqr": "^1.4.0",
+    "qrcode.react": "^4.2.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-intersection-observer": "^11.0.1",
     "react-rough-notation": "^1.0.8",
     "react-router-dom": "^7.18.5",
-    "tailwindcss": "^4.3.5"
+    "tailwindcss": "^4.3.5",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
