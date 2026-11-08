@@ -94,5 +94,6 @@ npm run build   # kết quả nằm trong thư mục dist/
 
 - **Vercel**: import repo, giữ cấu hình mặc định (đã có `vercel.json`).
 
-Sau khi có tên miền, sửa thẻ `og:image` trong [index.html](index.html) thành đường dẫn đầy đủ
-(ví dụ `https://ten-mien.vercel.app/og-image.png`) để Zalo/Messenger hiện ảnh xem trước.
+Ảnh xem trước khi gửi link (Zalo / Messenger) là `public/og-image.jpg` (1200×630, cắt từ `THO_0685.jpg`).
+Lúc build trên Vercel, tên miền được tự thêm vào thẻ `og:image`. Dùng tên miền riêng thì đặt biến `SITE_URL`
+(ví dụ `https://thiepcuoi.vn`) trong Environment Variables.

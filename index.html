@@ -19,8 +19,14 @@
       property="og:description"
       content="19.12.2026 · Nhà hàng Cát Tường Garden, Long Khánh, Đồng Nai"
     />
-    <!-- Sau khi deploy, đổi thành đường dẫn tuyệt đối, ví dụ: https://ten-mien-cua-ban.vercel.app/og-image.png -->
-    <meta property="og:image" content="/og-image.png" />
+    <!-- Ảnh cắt từ THO_0685.jpg. Zalo / Facebook cần đường dẫn đầy đủ: lúc build trên Vercel,
+         vite.config.ts tự thêm tên miền vào trước /og-image.jpg -->
+    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Thu Hương và Chí Quyền nắm tay bên hồ" />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
