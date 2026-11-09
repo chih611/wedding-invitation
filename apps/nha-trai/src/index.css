@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import "../../../packages/shared/src/styles/base.css";
+
+/* Màu thiệp nhà trai: đỏ đô và vàng đồng như thiệp giấy */
+@theme {
+  --color-navy: #7a1a1c;
+  --color-navy-light: #962c2c;
+  --color-royal: #b5862f;
+  --color-paper: #f8f0e3;
+  /* Nền kem rất nhạt cho các phần xen kẽ trong thiệp */
+  --color-tint: #fbf4e8;
+  /* Chữ trên thẻ lịch giấy (phần Save the date) */
+  --color-ink: #7a1a1c;
+}
+
+/* Phong bì đỏ, con dấu sáp vàng và thẻ lịch giấy ở phần Save the date */
+:root {
+  --envelope-light: #962c2c;
+  --envelope: #7a1a1c;
+  --envelope-dark: #561012;
+  --envelope-shadow: rgb(60 10 10 / 0.55);
+  --stamp-paper: #fffbf3;
+  --seal-light: #f0cf82;
+  --seal-mid: #c4952f;
+  --seal-dark: #8a6216;
+  --seal-inner-light: #d3a445;
+  --seal-inner-dark: #a77a22;
+  --seal-ring: rgb(255 240 200 / 0.4);
+  --seal-text: rgb(255 248 228 / 0.75);
+  --seal-text-stroke: rgb(90 55 5 / 0.4);
+}
+
+body {
+  /* Nền đỏ đô có hoa văn chữ 回 (hồi văn) màu vàng mờ, để thiệp nổi lên */
+  background-color: #6e1517;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44' fill='none' stroke='%23d8ad57' stroke-opacity='0.16' stroke-width='1.5'%3E%3Cpath d='M6 6h32v32H6z'/%3E%3Cpath d='M14 14h16v16H14z'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 15% 5%, rgb(255 220 150 / 0.12), transparent 45%),
+    radial-gradient(circle at 85% 95%, rgb(0 0 0 / 0.25), transparent 50%);
+  background-size:
+    44px 44px,
+    100% 100%,
+    100% 100%;
+}
