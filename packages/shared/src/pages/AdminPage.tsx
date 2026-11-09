@@ -56,7 +56,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   }
 
   return (
-    <main className="mx-auto min-h-svh max-w-2xl space-y-10 px-4 py-10 text-navy">
+    // Nền trắng riêng cho trang quản lý: nền trang của thiệp có thể là màu đậm (như đỏ đô của nhà trai)
+    <main className="mx-auto min-h-svh max-w-2xl space-y-10 bg-white px-4 py-10 text-navy sm:my-10 sm:min-h-0 sm:rounded-lg sm:px-8 sm:shadow-xl">
       <header className="flex items-start justify-between gap-4">
         <div>
           <h1 className="font-script text-5xl text-royal">{labels.adminTitle}</h1>
