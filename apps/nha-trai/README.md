@@ -108,7 +108,7 @@ Câu trả lời của khách được gửi thẳng vào Google Form, xem ở t
 
 ### Nhạc nền
 
-Đặt file nhạc vào `public/music/hon-ca-yeu.mp3` (hoặc tên khác rồi sửa `music.src` trong
+Nhạc nền nhà trai là `public/music/lo-thuong-nhau.mp3` (Lỡ Thương Nhau, đã cắt bỏ 55 giây đầu). Đổi bài thì đặt file vào `public/music/` rồi sửa `music.src` trong
 [src/data/wedding.ts](src/data/wedding.ts)). Nhạc tự phát khi mở thiệp (nếu trình duyệt chặn thì phát ở lần đầu khách chạm vào trang), có nút bật/tắt ở
 góc dưới bên phải. Chưa có file thì nút nhạc tự ẩn.
 

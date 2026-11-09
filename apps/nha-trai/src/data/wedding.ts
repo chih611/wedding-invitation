@@ -90,8 +90,9 @@ export const wedding = {
    * Nhạc nền: đặt file mp3 vào public/music/ rồi ghi tên ở đây.
    * Không có file thì nút nhạc tự ẩn.
    */
+  // Lỡ Thương Nhau (Bò Sữa Bay OST), bản 128 kbps, đã cắt bỏ 55 giây đầu
   music: {
-    src: "/music/hon-ca-yeu.mp3",
-    title: "Hơn Cả Yêu",
+    src: "/music/lo-thuong-nhau.mp3",
+    title: "Lỡ Thương Nhau",
   },
 } satisfies WeddingInfo;
