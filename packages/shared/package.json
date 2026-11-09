@@ -1,0 +1,23 @@
+{
+  "name": "@wedding/shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Component, trang admin, hooks và tiện ích dùng chung cho thiệp nhà gái và nhà trai",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles/*": "./src/styles/*"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "peerDependencies": {
+    "framer-motion": "*",
+    "jsqr": "*",
+    "qrcode.react": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-router-dom": "*",
+    "xlsx": "*"
+  }
+}

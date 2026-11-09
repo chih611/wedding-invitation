@@ -1,0 +1,56 @@
+/*
+ * CSS dùng chung, import trong src/index.css của từng app (sau @import "tailwindcss").
+ * Màu sắc (--color-navy, --color-royal...), nền trang và màu phong bì / con dấu do từng app tự đặt.
+ */
+
+/* Cho Tailwind quét class trong code dùng chung (nằm ngoài thư mục app) */
+@source "../";
+
+@theme {
+  --font-sans: "Montserrat", system-ui, sans-serif;
+  --font-script: "Great Vibes", cursive;
+  --font-serif: "Playfair Display", Georgia, serif;
+}
+
+:root {
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-navy);
+  background-attachment: fixed;
+}
+
+/* Hiệu ứng tim (hoặc chữ 囍) bay nhẹ ở nền */
+@keyframes float-up {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--heart-opacity, 0.25);
+  }
+  90% {
+    opacity: var(--heart-opacity, 0.25);
+  }
+  100% {
+    transform: translateY(-110vh) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+.floating-heart {
+  animation: float-up linear infinite;
+}
+
+/* Máy bật "giảm chuyển động" (ví dụ tắt Show animations trên Windows): vẫn hiện tim nhưng bay chậm hơn */
+@media (prefers-reduced-motion: reduce) {
+  .floating-heart {
+    animation-duration: 40s !important;
+  }
+}

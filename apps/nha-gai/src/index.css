@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import "../../../packages/shared/src/styles/base.css";
+
+/* Màu thiệp nhà gái: tông xanh navy */
+@theme {
+  --color-navy: #1d2c6b;
+  --color-navy-light: #30438f;
+  --color-royal: #2347a8;
+  --color-paper: #f4f5f9;
+  /* Nền xanh rất nhạt cho các phần xen kẽ trong thiệp */
+  --color-tint: #f3f6fc;
+  /* Chữ trên thẻ lịch giấy (phần Save the date) */
+  --color-ink: #2347a8;
+}
+
+/* Phong bì, con dấu sáp và thẻ lịch giấy ở phần Save the date */
+:root {
+  --envelope-light: #2c3f8f;
+  --envelope: #1d2c6b;
+  --envelope-dark: #141f4f;
+  --envelope-shadow: rgb(10 16 45 / 0.55);
+  --stamp-paper: #fbfbfe;
+  --seal-light: #4a64bd;
+  --seal-mid: #2a3d8a;
+  --seal-dark: #141f4f;
+  --seal-inner-light: #33499c;
+  --seal-inner-dark: #1d2c6b;
+  --seal-ring: rgb(220 230 255 / 0.25);
+  --seal-text: rgb(225 232 255 / 0.6);
+  --seal-text-stroke: rgb(5 10 40 / 0.35);
+}
+
+body {
+  /* Nền xanh xám đậm hơn thiệp một chút + chấm nhỏ, để thiệp trắng nổi lên */
+  background-color: #dfe5f1;
+  background-image:
+    radial-gradient(rgb(29 44 107 / 0.08) 1px, transparent 1.5px),
+    radial-gradient(circle at 15% 5%, rgb(255 255 255 / 0.7), transparent 45%),
+    radial-gradient(circle at 85% 95%, rgb(35 71 168 / 0.14), transparent 50%);
+  background-size:
+    18px 18px,
+    100% 100%,
+    100% 100%;
+}
