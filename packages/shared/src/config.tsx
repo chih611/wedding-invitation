@@ -74,11 +74,6 @@ export interface WeddingPhotos {
   invite: string;
   /** Vị trí cắt ảnh invite (bỏ trống = giữa ảnh) */
   invitePosition?: string;
-  /**
-   * Ảnh invite là ảnh dọc mà muốn thấy trọn người: đặt ảnh giữa khung 3:2 với tỉ lệ này,
-   * hai bên là chính ảnh đó làm mờ. Bỏ trống thì ảnh phủ kín khung như bình thường.
-   */
-  inviteInnerAspect?: "square" | "5/4";
   /** Hộp mừng cưới: ảnh nửa trái băng rôn */
   gift: string;
   /** Ảnh trên cùng cửa sổ mã QR (khung 3:2) */

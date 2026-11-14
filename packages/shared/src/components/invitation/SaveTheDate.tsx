@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Section from "../common/Section";
-import { useWedding, type WeddingPhotos } from "../../config";
+import { useWedding } from "../../config";
 import { photoUrl } from "../../utils/photos";
 import { monthCells, toVietnamDateParts } from "../../utils/date";
 
@@ -100,42 +100,14 @@ export default function SaveTheDate() {
       </Section>
 
       <Section className="mt-10">
-        <InvitePhoto alt={`${couple[0].shortName} và ${couple[1].shortName}`} photos={photos} />
+        <img
+          src={photoUrl(photos.invite)}
+          alt={`${couple[0].shortName} và ${couple[1].shortName}`}
+          loading="lazy"
+          className="block aspect-[3/2] w-full object-cover"
+          style={photos.invitePosition ? { objectPosition: photos.invitePosition } : undefined}
+        />
       </Section>
-    </div>
-  );
-}
-
-/**
- * Ảnh ngang 3:2 dưới lời mời. Có inviteInnerAspect thì ảnh nằm giữa khung với tỉ lệ đó để thấy trọn người,
- * hai bên là chính ảnh đó làm mờ.
- */
-function InvitePhoto({ alt, photos }: { alt: string; photos: WeddingPhotos }) {
-  const position = photos.invitePosition ? { objectPosition: photos.invitePosition } : undefined;
-  if (!photos.inviteInnerAspect) {
-    return (
-      <img src={photoUrl(photos.invite)} alt={alt} loading="lazy" className="block aspect-[3/2] w-full object-cover" style={position} />
-    );
-  }
-  // Tailwind cần thấy nguyên tên class trong code nên ghi đủ các tỉ lệ
-  const inner = photos.inviteInnerAspect === "square" ? "aspect-square" : "aspect-[5/4]";
-  return (
-    <div className="relative aspect-[3/2] w-full overflow-hidden">
-      <img
-        src={photoUrl(photos.invite)}
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-        className="absolute inset-0 h-full w-full scale-110 object-cover blur-md"
-        style={position}
-      />
-      <img
-        src={photoUrl(photos.invite)}
-        alt={alt}
-        loading="lazy"
-        className={`relative mx-auto block h-full object-cover shadow-[0_0_24px_rgb(0_0_0/0.25)] ${inner}`}
-        style={position}
-      />
     </div>
   );
 }

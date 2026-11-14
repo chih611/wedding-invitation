@@ -12,8 +12,6 @@ export const config: WeddingConfig = {
     hero: p.heroPhoto,
     heroPosition: p.heroPhotoPosition,
     invite: p.invitePhoto,
-    invitePosition: p.invitePhotoPosition,
-    inviteInnerAspect: p.invitePhotoAspect,
     gift: p.giftPhoto,
     giftModal: p.giftModalPhoto,
     giftModalPosition: p.giftModalPhotoPosition,
