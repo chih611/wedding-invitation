@@ -43,9 +43,9 @@ export const wedding = {
     hall: "Sảnh Sonas · Lầu 6",
     address: "Số 284 - 286 Vườn Lài, Phường Phú Thọ Hòa, TP.HCM",
     mapQuery: "Trung tâm Hội nghị Tiệc cưới Asiana Plaza, 284 Vườn Lài, Phú Thọ Hòa, TP.HCM",
-    start: "2026-12-20T17:00:00+07:00",
+    start: "2026-12-20T17:30:00+07:00",
     durationHours: 4,
-    timeLabel: "17H00",
+    timeLabel: "17H30",
     lunarDate: "Nhằm ngày 12 tháng 11 năm Bính Ngọ",
   },
 
