@@ -56,15 +56,16 @@ export const heroPhoto = "tho-2451.jpg";
 export const heroPhotoPosition = "50% 50%";
 
 /** Ảnh ngang dưới phần lịch và lời mời */
-export const invitePhoto = "tho-2380.jpg";
+export const invitePhoto = "tho-quang-minh.jpg";
 /**
  * Khung ảnh này vẫn là khung ngang 3:2. Ảnh dọc được đặt giữa khung với tỉ lệ invitePhotoAspect
  * ("5/4" hoặc "square" = vuông, vuông thì thấy được nhiều chiều cao hơn) để thấy trọn người,
  * hai bên lấp bằng chính ảnh đó làm mờ. Xoá dòng aspect (để undefined) thì ảnh phủ kín khung như bình thường.
  * invitePhotoPosition là vị trí cắt phần ảnh ở giữa (giống heroPhotoPosition).
  */
-export const invitePhotoAspect: "5/4" | "square" | undefined = "5/4";
-export const invitePhotoPosition = "50% 95%";
+// Ảnh tho-quang-minh.jpg đã là ảnh ngang 3:2 nên phủ kín khung, không cần làm mờ hai bên
+export const invitePhotoAspect: "5/4" | "square" | undefined = undefined;
+export const invitePhotoPosition = "50% 50%";
 
 /** Hộp mừng cưới: ảnh nửa trái băng rôn, và ảnh trên cùng của cửa sổ mã QR */
 export const giftPhoto = "tho-2483.jpg";
