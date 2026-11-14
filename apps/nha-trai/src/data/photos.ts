@@ -56,7 +56,7 @@ export const heroPhoto = "tho-2451.jpg";
 export const heroPhotoPosition = "50% 50%";
 
 /** Ảnh ngang (khung 3:2) dưới phần lịch và lời mời: ảnh trước điện Quang Minh */
-export const invitePhoto = "tho-quang-minh.jpg";
+export const invitePhoto = "tho-3000.jpg";
 
 /** Hộp mừng cưới: ảnh nửa trái băng rôn, và ảnh trên cùng của cửa sổ mã QR */
 export const giftPhoto = "tho-2483.jpg";

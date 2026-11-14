@@ -120,6 +120,6 @@ npm run build   # kết quả nằm trong thư mục dist/
 
 - **Vercel**: import repo, giữ cấu hình mặc định (đã có `vercel.json`).
 
-Ảnh xem trước khi gửi link (Zalo / Messenger) là `public/og-image.jpg` (1200×630, cắt từ `tho-2380.jpg`).
+Ảnh xem trước khi gửi link (Zalo / Messenger) là `public/og-image.jpg` (1200×630, cắt từ `tho-3000.jpg`).
 Lúc build trên Vercel, tên miền được tự thêm vào thẻ `og:image`. Dùng tên miền riêng thì đặt biến `SITE_URL`
 (ví dụ `https://thiepcuoi.vn`) trong Environment Variables.
